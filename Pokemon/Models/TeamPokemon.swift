@@ -31,7 +31,6 @@ class TeamPokemon {
         self.specialDefense = specialDefense
         self.speed = speed
         
-        
         self.types = types
         self.typeDamageMultiples = calcTypeAdvantages(for: types)
         self.image = image
