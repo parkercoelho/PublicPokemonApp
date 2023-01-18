@@ -8,6 +8,8 @@
 import UIKit
 
 class TeamsListTableViewCell: UITableViewCell {
+    
+    var teamTitle: String
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,5 +21,14 @@ class TeamsListTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    init(teamTitle: String, style:UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        self.teamTitle = teamTitle
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }
