@@ -9,8 +9,9 @@ import UIKit
 
 class TeamsListTableViewController: UITableViewController {
     
-    var teams: [Team] = [Team(team: [])]
+    var teams: [Team] = [Team(team: [], teamName: "My team")]
     var coordinator: MainCoordinator?
+    var delegate: HomeScreenViewController?
     
     let teamsListCell = "cell"
 
@@ -24,7 +25,6 @@ class TeamsListTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return teams.count
     }
 
@@ -47,5 +47,13 @@ class TeamsListTableViewController: UITableViewController {
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
 
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newPokemon: TeamPokemon = TeamPokemon(name: "pikachu", hp: indexPath.row, attack: indexPath.row, defense: indexPath.row, specialAttack: indexPath.row, specialDefense: indexPath.row, speed: indexPath.row, types: [.water], image: .strokedCheckmark)
+        let newTeam: Team = Team(team: [newPokemon], teamName: "Team \(indexPath.row)!")
+        teams.append(newTeam)
+        PersistenceFunctions.saveTeams(teams: teams)
+        print("Attempted to save")
     }
 }

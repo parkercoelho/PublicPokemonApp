@@ -38,7 +38,7 @@ class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func toTeamsList() {
+    func toTeamsList(teams: [Team], delegate: HomeScreenViewController) {
         let vc = TeamsListTableViewController()
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)

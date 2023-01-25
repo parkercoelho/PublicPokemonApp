@@ -11,7 +11,7 @@ import PokemonAPI
 class TeamManagerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource {
     
     let numberOfTypes: Int = 18
-    var team: Team = Team(team: [])
+    var team: Team = Team(team: [], teamName: "My team")
     var masterTableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false

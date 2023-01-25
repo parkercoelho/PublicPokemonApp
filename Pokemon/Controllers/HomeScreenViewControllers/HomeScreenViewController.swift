@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PokemonAPI
 
 class HomeScreenViewController: UIViewController {
     // MARK: - Properties
@@ -14,6 +15,8 @@ class HomeScreenViewController: UIViewController {
         return self.view.safeAreaLayoutGuide
     }
     var coordinator: MainCoordinator?
+    
+    var teams: [Team] = []
 
     // MARK: - UI Components
     let teamManagerButton: HomeScreenStackView = {
@@ -27,9 +30,23 @@ class HomeScreenViewController: UIViewController {
         super.viewDidLoad()
         view.addSubview(teamManagerButton)
         constrainViews()
-        makeTeamTappable()
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [UIColor.white.cgColor, UIColor(named: "TeaGreen")!.cgColor]
+        gradientLayer.zPosition = -2
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
         
-        // Do any additional setup after loading the view.
+        view.layer.addSublayer(gradientLayer)
+        makeTeamTappable()
+        Task {
+            do {
+                teams = try await initializeFromPersistedData(pokemon: PersistenceFunctions.loadTeamDictionaries())
+            } catch {
+                print("error initializing data \(error)")
+            }
+        }
+        print("View did load on home screen")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,11 +76,37 @@ class HomeScreenViewController: UIViewController {
         teamManagerButton.addGestureRecognizer(tapGestureRecognizer)
     }
 
-
     // MARK: - Navigation
 
      @objc func navToTeamsList() {
-         coordinator?.toTeamsList()
+         coordinator?.toTeamsList(teams: teams, delegate: self)
      }
-
+    
+    func initializeFromPersistedData(pokemon: [String: [String]]) async throws -> [Team] {
+        var teams: [Team] = []
+        
+        for (key, value) in pokemon {
+            
+            let teamToAdd: Team = Team(team: [], teamName: key)
+            for pokemonName in value {
+                
+                    let fetchedPokemon: TeamPokemon = try await withCheckedThrowingContinuation { continuation in
+                        
+                        PokemonAPI().pokemonService.fetchPokemon(pokemonName.lowercased()) { result in
+                            switch result {
+                            case .success(let pokemon):
+                                guard let fetchedPokemon = TeamPokemon(pokemon: pokemon) else {return}
+                                continuation.resume(returning: fetchedPokemon)
+                            case .failure(let error):
+                                print(error)
+                                continuation.resume(throwing: error)
+                            }
+                        }
+                    }
+                    teamToAdd.pokemonOnTeam.append(fetchedPokemon)
+            }
+            teams.append(teamToAdd)
+        }
+        return teams
+    }
 }

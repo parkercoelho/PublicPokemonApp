@@ -8,6 +8,7 @@
 import Foundation
 
 class Team {
+    var teamName: String
     var pokemonOnTeam: [TeamPokemon] = []
     
     var teamWeaknesses: [Double] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -38,7 +39,8 @@ class Team {
         }
     }
     
-    init(team: [TeamPokemon]) {
+    init(team: [TeamPokemon], teamName: String) {
         self.pokemonOnTeam = team
+        self.teamName = teamName
     }
 }
