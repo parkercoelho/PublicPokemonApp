@@ -20,7 +20,6 @@ class TeamTableViewCell: UITableViewCell {
         iv.backgroundColor = .clear
         return iv
     }()
-    
     let pokemonNameLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

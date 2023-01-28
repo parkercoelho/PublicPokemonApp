@@ -10,6 +10,7 @@ import PokemonAPI
 
 class TeamManagerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource {
     
+    var delegate: TeamsListTableViewController?
     let numberOfTypes: Int = 18
     var team: Team = Team(team: [], teamName: "My team")
     var masterTableView: UITableView = {
@@ -264,38 +265,14 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
             return UICollectionViewCell()
         }
     }
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//                return CGSize(width: 250, height: 25)
-//    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == self.teamCollectionView {
+            
             if indexPath.row > 0 && team.pokemonOnTeam.count < 6 {
                 let pokemonToAdd = TeamPokemon(name: "squirtle", hp: 1, attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1, types: [.water], image: nil)
                 coordinator?.toTeamBuilderFromTeamManager(pokemonToExamine: pokemonToAdd, delegate: self)
-//
-//                let fetchedPokemon = await PokemonController.newFetchPokemonFromPoke(searchTerm: pokemonToAdd.name)
-//
-//                let sprite = try await PokemonController.newFetchPokemonSprite(pokemon: fetchedPokemon)
-//
-//                pokemonToAdd.image = sprite
-//                team.add(pokemon: pokemonToAdd)
-//                self.teamCollectionView.reloadData()
-//                self.typeCollectionView.reloadData()
-//                self.teamTableView.reloadData()
-//
-//                PokemonController.fetchPokemonFromPoke(searchTerm: pokemonToAdd.name) { result in
-//                    DispatchQueue.main.async {
-//                        switch result {
-//                        case .success(let pokemon):
-//                            self.fetchSpriteAndUpdateTeamCollectionView(pokemon: pokemon, cellPokemon: pokemonToAdd)
-//                            print("Added Squirtle")
-//                        case .failure(let error):
-//                            print(error)
-//                        }
-//                    }
-//                }
             }
+            
             if indexPath.row > 0 && indexPath.row <= team.pokemonOnTeam.count {
                 coordinator?.toTeamBuilderFromTeamManager(pokemonToExamine: team.pokemonOnTeam[indexPath.row-1], delegate: self)
             }

@@ -44,3 +44,11 @@ class Team {
         self.teamName = teamName
     }
 }
+
+extension Team: Equatable {
+    static func == (lhs: Team, rhs: Team) -> Bool {
+        lhs.teamName == rhs.teamName
+    }
+    
+    
+}

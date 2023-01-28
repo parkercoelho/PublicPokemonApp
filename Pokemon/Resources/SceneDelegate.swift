@@ -20,6 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         let navController = UINavigationController()
+        navController.navigationBar.tintColor = UIColor(named: "TypeCalcsDarkGreen")
+        
         let vc = HomeScreenViewController()
         coordinator = MainCoordinator(navigationController: navController)
         vc.coordinator = coordinator

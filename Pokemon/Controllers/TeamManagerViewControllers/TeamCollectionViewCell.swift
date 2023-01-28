@@ -9,6 +9,7 @@ import UIKit
 
 class TeamCollectionViewCell: UICollectionViewCell {
     var delegate: TeamManagerViewController?
+    var teamsListDelegate: TeamsListTableViewCell?
     
     let teamCollectionViewImage: UIImageView = {
         let iv = UIImageView()
@@ -43,6 +44,18 @@ class TeamCollectionViewCell: UICollectionViewCell {
                 teamCollectionViewImage.centerXAnchor.constraint(equalTo: centerXAnchor),
                 teamCollectionViewImage.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
+        }
+    }
+    
+    func setUpTeamsListTeamCollectionViewCell(indexPath: IndexPath) {
+        guard let teamsListDelegate = teamsListDelegate else {
+            return
+        }
+        guard let team = teamsListDelegate.team?.pokemonOnTeam else {return}
+        
+        if team.count > 0 {
+            addImageToTeamCollectionView(pokemon: team[indexPath.row])
+            
         }
     }
     
