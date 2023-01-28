@@ -28,11 +28,13 @@ class TeamBuilderViewController: UIViewController {
     }
     let searchBar: UISearchBar = {
         let search = UISearchBar()
+        print(search.subviews)
         return search
     }()
     let searchSuggestionsTableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
+        table.backgroundColor = .clear
         return table
     }()
     let teamCollectionView: UICollectionView = {
@@ -49,6 +51,10 @@ class TeamBuilderViewController: UIViewController {
     let pokemonNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Insert name here"
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        label.font = UIFont(name: "American Typewriter Bold", size: 36)
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         return label
     }()
     let pokemonImageView: UIImageView = {
@@ -99,6 +105,13 @@ class TeamBuilderViewController: UIViewController {
         button.setTitleColor(UIColor.white, for: .normal)
         return button
     }()
+    let testContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.isHidden = true
+        return view
+    }()
     
     var searchSuggestions: [String] = ["Squirtle","pikachu"]
     
@@ -122,6 +135,11 @@ class TeamBuilderViewController: UIViewController {
         //testing updating below
         reconfigureStatStacks(for: teamPokemon)
     }
+    override func viewDidAppear(_ animated: Bool) {
+        searchBar.changePlaceholderColor(UIColor(named: "TypeCalcsDarkGreen")!)
+        searchBar.changeSearchBarTextColor(UIColor(named: "TypeCalcsDarkGreen")!)
+        searchBar.changeImageColor(UIColor(named: "TypeCalcsDarkGreen")!)
+    }
     
     // MARK: - UI Functions
     func setUpView() {
@@ -142,18 +160,28 @@ class TeamBuilderViewController: UIViewController {
         updateTeamPokemonViews(teamPokemon: teamPokemon)
     }
     func addAllViews() {
+//
+//        self.view.addSubview(searchBar)
+//        self.view.addSubview(pokemonNameLabel)
+//        self.view.addSubview(pokemonImageView)
+//        self.view.addSubview(abilitiesStackView)
+//        self.view.addSubview(statsStack)
+//        self.view.addSubview(teamCollectionView)
+//        self.view.addSubview(addToTeamButton)
+//
         self.view.addSubview(searchBar)
-        self.view.addSubview(pokemonNameLabel)
-        self.view.addSubview(pokemonImageView)
-        self.view.addSubview(abilitiesStackView)
-        self.view.addSubview(statsStack)
         self.view.addSubview(searchSuggestionsTableView)
-        self.view.addSubview(teamCollectionView)
-        self.view.addSubview(addToTeamButton)
+        testContainerView.addSubview(pokemonNameLabel)
+        testContainerView.addSubview(pokemonImageView)
+        testContainerView.addSubview(abilitiesStackView)
+        testContainerView.addSubview(statsStack)
+        testContainerView.addSubview(teamCollectionView)
+        testContainerView.addSubview(addToTeamButton)
+        view.addSubview(testContainerView)
     }
     func updateTeamPokemonViews(teamPokemon: TeamPokemon) {
         pokemonImageView.image = teamPokemon.image
-        pokemonNameLabel.text = teamPokemon.name
+        pokemonNameLabel.text = teamPokemon.name.capitalized
         //set up abilities later
         reconfigureStatStacks(for: teamPokemon)
     }
@@ -170,7 +198,10 @@ class TeamBuilderViewController: UIViewController {
     // MARK: - Configurations
     func configureSearchBar() {
         searchBar.delegate = self
+        searchBar.clearBackgroundColor()
         searchBar.placeholder = "Search for a new team pokemon"
+        searchBar.keyboardType = .default
+        searchBar.autocorrectionType = .no
     }
     func configureTableView() {
         searchSuggestionsTableView.delegate = self
@@ -181,7 +212,7 @@ class TeamBuilderViewController: UIViewController {
             searchSuggestionsTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             searchSuggestionsTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
-        searchSuggestionsTableView.isHidden = false
+        searchSuggestionsTableView.isHidden = true
     }
     func configureCollectionView() {
         teamCollectionView.backgroundColor = .white
@@ -287,8 +318,14 @@ class TeamBuilderViewController: UIViewController {
     // what is the best way to constrain/lay out things like stack views, table/collection views? Like do I constrain all the labels
     func constrainViews() {
         self.view.subviews.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
+        testContainerView.subviews.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
         
         NSLayoutConstraint.activate([
+            testContainerView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            testContainerView.bottomAnchor.constraint(equalTo: addToTeamButton.topAnchor),
+            testContainerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            testContainerView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            
             searchBar.topAnchor.constraint(equalTo: safeArea.topAnchor),
             searchBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
@@ -298,10 +335,13 @@ class TeamBuilderViewController: UIViewController {
             pokemonNameLabel.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.05),
             pokemonNameLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
             
+            
             pokemonImageView.topAnchor.constraint(equalTo: pokemonNameLabel.bottomAnchor),
             pokemonImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             pokemonImageView.trailingAnchor.constraint(equalTo: safeArea.centerXAnchor),
             pokemonImageView.widthAnchor.constraint(equalTo: pokemonImageView.heightAnchor),
+            
+            pokemonNameLabel.centerXAnchor.constraint(equalTo: pokemonImageView.centerXAnchor),
             
             abilitiesStackView.topAnchor.constraint(equalTo: pokemonImageView.topAnchor),
             abilitiesStackView.bottomAnchor.constraint(equalTo: pokemonImageView.bottomAnchor),
@@ -357,6 +397,7 @@ extension TeamBuilderViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         //
         teamCollectionView.isHidden = true
+        testContainerView.isHidden = true 
         searchSuggestionsTableView.isHidden = false
         searchSuggestionsTableView.reloadData()
     }
@@ -370,6 +411,7 @@ extension TeamBuilderViewController: UISearchBarDelegate {
                 teamPokemon = fetchedPokemon
                 updateTeamPokemonViews(teamPokemon: teamPokemon)
                 searchSuggestionsTableView.isHidden = true
+                testContainerView.isHidden = false
             }
             catch {
                 print("Request failed with error: \(error)")
@@ -403,7 +445,7 @@ extension UILabel {
 extension UIView {
     func updateBarColor(on stat: Int) {
         if stat < 60 {
-            self.backgroundColor = .red
+            self.backgroundColor = UIColor(named: "AlertRed")
         }
         else if stat < 85 {
             self.backgroundColor = .orange
@@ -416,6 +458,50 @@ extension UIView {
         }
         else {
             self.backgroundColor = .cyan
+        }
+    }
+}
+extension UISearchBar {
+    public var textField: UITextField? {
+            if #available(iOS 13, *) {
+                return searchTextField
+            }
+            let subViews = subviews.flatMap { $0.subviews }
+            guard let textField = (subViews.filter { $0 is UITextField }).first as? UITextField else {
+                return nil
+            }
+            return textField
+        }
+    
+    func clearBackgroundColor() {
+            guard let UISearchBarBackground: AnyClass = NSClassFromString("UISearchBarBackground") else { return }
+
+            for view in subviews {
+                for subview in view.subviews where subview.isKind(of: UISearchBarBackground) {
+                    subview.alpha = 0
+                }
+            }
+    }
+    func changePlaceholderColor(_ color: UIColor) {
+        guard let UISearchBarTextFieldLabel: AnyClass = NSClassFromString("UISearchBarTextFieldLabel"),
+                    let field = textField else {
+                    return
+                }
+                for subview in field.subviews where subview.isKind(of: UISearchBarTextFieldLabel) {
+                    (subview as! UILabel).textColor = color
+                }
+    }
+    func changeSearchBarTextColor(_ color: UIColor) {
+        if let textField = self.value(forKey: "searchField") as? UITextField {
+            textField.textColor = color
+        }
+    }
+    func changeImageColor(_ color: UIColor) {
+        if let textField = self.value(forKey: "searchField") as? UITextField {
+            if let leftView = textField.leftView as? UIImageView {
+                leftView.image = leftView.image?.withRenderingMode(.alwaysTemplate)
+                leftView.tintColor = color
+            }
         }
     }
 }

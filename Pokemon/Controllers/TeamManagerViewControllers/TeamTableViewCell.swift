@@ -54,13 +54,17 @@ class TeamTableViewCell: UITableViewCell {
         ])
     }
     
+    func configurePokemonImage(pokemon: TeamPokemon) {
+        pokeBallImageView.image = pokemon.image
+    }
+    
     func configurePokemonNameLabel(pokemon: TeamPokemon) {
-        pokemonNameLabel.text = pokemon.name
+        pokemonNameLabel.text = pokemon.name.capitalized
         contentView.addSubview(pokemonNameLabel)
         
         NSLayoutConstraint.activate([
-            pokemonNameLabel.leadingAnchor.constraint(equalTo: pokeBallImageView.trailingAnchor, constant: 5),
-            pokemonNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 5),
+            pokemonNameLabel.leadingAnchor.constraint(equalTo: pokeBallImageView.trailingAnchor, constant: 3),
+//            pokemonNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 5),
             pokemonNameLabel.topAnchor.constraint(equalTo: topAnchor),
             pokemonNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])

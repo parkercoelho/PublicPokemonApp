@@ -28,20 +28,41 @@ class TypeLabelCollectionViewCell: UICollectionViewCell {
     
     func configureStackAndAddTypeCells(stack: UIStackView) {
         TeamPokemon.PokemonTypeStrings.allCases.forEach { type in
+            let backgroundView: UIView = {
+                let view = UIView()
+                view.translatesAutoresizingMaskIntoConstraints = false
+                view.layer.cornerRadius = 10
+                view.layer.borderColor = UIColor(named: "BackgroundColor")!.cgColor
+                view.layer.borderWidth = 1
+                return view
+            }()
             let label: UILabel = {
                 let label = UILabel(statName: type.rawValue.uppercased())
                 label.translatesAutoresizingMaskIntoConstraints = false
-                label.font = UIFont(name: "ArialRoundedMTBold", size: 9)
-                label.textColor = UIColor(named: "TypeCalcsGood")
-                let gradientLayer = CAGradientLayer()
-                gradientLayer.frame = label.bounds
-                gradientLayer.colors = [UIColor.white.cgColor, UIColor.red.cgColor]
-                gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
-                gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
-                label.layer.addSublayer(gradientLayer)
+                if self.frame.width < 40.0 {
+                    label.font = UIFont(name: "ArialRoundedMTBold", size: 7)}
+                else if self.frame.width > 40.0 {
+                    label.font = UIFont(name: "ArialRoundedMTBold", size: 8)
+                }
+                label.textColor = .white
+                if type == .normal {
+                    label.textColor = UIColor(named: "TypeCalcsGood")
+                }
+                if type == .fairy {
+                    label.textColor = UIColor(named: "TypeCalcsGood")
+
+                }
                 return label
             }()
-            stack.addSubview(label)
+            
+            backgroundView.addSubview(label)
+            NSLayoutConstraint.activate([
+                label.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
+                label.centerYAnchor.constraint(equalTo: backgroundView.centerYAnchor)
+            ])
+            label.textAlignment = .center
+            
+            stack.addSubview(backgroundView)
         }
     }
     func constrainTypeLabelCell(stack: UIStackView) {
@@ -68,6 +89,58 @@ class TypeLabelCollectionViewCell: UICollectionViewCell {
                     subView.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
                     subView.heightAnchor.constraint(equalTo: stack.subviews[0].heightAnchor)
                 ])
+            }
+            
+            let gradientLayer = CAGradientLayer()
+            gradientLayer.frame = subView.frame
+            gradientLayer.zPosition = -5
+            gradientLayer.startPoint = CGPoint(x: subView.frame.origin.x, y: subView.frame.origin.y)
+            print(gradientLayer.startPoint)
+            gradientLayer.endPoint = CGPoint(x: subView.frame.origin.x + subView.frame.width, y: subView.frame.origin.y)
+            
+            print(gradientLayer.endPoint)
+            gradientLayer.shouldRasterize = true
+            print("The number is \(n)")
+            
+            switch n {
+            case 0:
+                subView.backgroundColor = UIColor(named: "TeaGreen")
+            case 1:
+                subView.backgroundColor = UIColor(named: "Fire")
+            case 2:
+                subView.backgroundColor = UIColor(named: "Water")
+            case 3:
+                subView.backgroundColor = UIColor(named: "Electric")
+            case 4:
+                subView.backgroundColor = UIColor(named: "Grass")
+            case 5:
+                subView.backgroundColor = UIColor(named: "Ice")
+            case 6:
+                subView.backgroundColor = UIColor(named: "Fighting")
+            case 7:
+                subView.backgroundColor = UIColor(named: "Poison")
+            case 8:
+                subView.backgroundColor = UIColor(named: "Ground")
+            case 9:
+                subView.backgroundColor = UIColor(named: "Flying")
+            case 10:
+                subView.backgroundColor = UIColor(named: "Psychic")
+            case 11:
+                subView.backgroundColor = UIColor(named: "Bug")
+            case 12:
+                subView.backgroundColor = UIColor(named: "Rock")
+            case 13:
+                subView.backgroundColor = UIColor(named: "Ghost")
+            case 14:
+                subView.backgroundColor = UIColor(named: "Dragon")
+            case 15:
+                subView.backgroundColor = UIColor(named: "Dark")
+            case 16:
+                subView.backgroundColor = UIColor(named: "Steel")
+            case 17:
+                subView.backgroundColor = UIColor(named: "Fairy")
+            default:
+                subView.backgroundColor = UIColor(named: "Normal")
             }
         }
     }

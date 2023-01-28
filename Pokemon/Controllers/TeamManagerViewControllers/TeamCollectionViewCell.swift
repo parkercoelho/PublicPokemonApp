@@ -113,8 +113,8 @@ class TeamCollectionViewCell: UICollectionViewCell {
         teamCollectionViewImage.image = pokemon.image
         contentView.addSubview(teamCollectionViewImage)
         NSLayoutConstraint.activate([
-            teamCollectionViewImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
-            teamCollectionViewImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8),
+            teamCollectionViewImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1.0),
+            teamCollectionViewImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1.0),
             teamCollectionViewImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             teamCollectionViewImage.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])

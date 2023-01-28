@@ -55,9 +55,8 @@ class TeamsListTableViewController: UIViewController, UITableViewDelegate, UITab
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .purple
         navigationController?.navigationBar.standardAppearance = appearance
-//        navigationController?.navigationBar.layer.insertSublayer(gradientLayer, at: 0)
-
-//        navigationItem.titleView?.layer.insertSublayer(gradientLayer, at: 0)
+        teamsListTableView.reloadData()
+        
     }
 
     // MARK: - Table view data source
@@ -96,7 +95,7 @@ class TeamsListTableViewController: UIViewController, UITableViewDelegate, UITab
         let cellBackgroundView = UIView()
         cellBackgroundView.backgroundColor = UIColor(named: "BackgroundColor")
         cell.selectedBackgroundView = cellBackgroundView
-        
+        cell.teamCollectionView.reloadData()
         return cell
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

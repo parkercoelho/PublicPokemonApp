@@ -97,7 +97,6 @@ class TeamsListTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColle
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.contentView.backgroundColor = .red
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -143,7 +142,6 @@ class TeamsListTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColle
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamCell", for: indexPath) as! TeamCollectionViewCell
-        cell.backgroundColor = .red
         cell.teamsListDelegate = self
         cell.setUpTeamsListTeamCollectionViewCell(indexPath: indexPath)
         

@@ -13,10 +13,13 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
     var delegate: TeamsListTableViewController?
     let numberOfTypes: Int = 18
     var team: Team = Team(team: [], teamName: "My team")
-    var masterTableView: UITableView = {
-        let table = UITableView()
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
+    var teamTitle: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsGood")
+        label.textAlignment = .center
+        label.font = UIFont(name: "American Typewriter", size: 24)
+        return label
     }()
         
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -27,22 +30,7 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == self.masterTableView {
-            let cell = UITableViewCell()
-                teamTableView.delegate = self
-                teamTableView.dataSource = self
-                cell.contentView.addSubview(teamTableView)
-                cell.updateConstraints()
 
-                NSLayoutConstraint.activate([
-                    teamTableView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-                    teamTableView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
-                    teamTableView.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-                    teamTableView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
-                ])
-                cell.contentView.updateConstraints()
-            return cell
-        }
         if tableView == self.teamTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "teamTableCell") as! TeamTableViewCell
             cell.delegate = self
@@ -51,6 +39,7 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
             
             if indexPath.row < team.pokemonOnTeam.count {
                 cell.configurePokemonNameLabel(pokemon: team.pokemonOnTeam[indexPath.row])
+                cell.configurePokemonImage(pokemon: team.pokemonOnTeam[indexPath.row])
             }
             return cell
         }
@@ -132,8 +121,7 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Team 1"
-        
+                
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
         gradientLayer.colors = [UIColor.white.cgColor, UIColor(named: "TeaGreen")!.cgColor]
@@ -143,27 +131,16 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         gradientLayer.shouldRasterize = true
         
         view.layer.addSublayer(gradientLayer)
+        view.addSubview(teamTitle)
         view.addSubview(teamTableView)
         view.addSubview(teamCollectionView)
         view.addSubview(searchSuggestionsTableView)
         view.addSubview(typeCollectionView)
+        configureTitle()
         configureTeamTableView()
         configureTeamCollectionView()
         configureTableView()
         configureTypeCollectionView()
-        
-//        masterTableView.delegate = self
-//        masterTableView.dataSource = self
-//        masterTableView.rowHeight = UITableView.automaticDimension
-//        masterTableView.estimatedRowHeight = 50
-//        view.addSubview(masterTableView)
-//
-//        NSLayoutConstraint.activate([
-//            masterTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-//            masterTableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-//            masterTableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-//            masterTableView.heightAnchor.constraint(equalTo: safeArea.heightAnchor)
-//        ])
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -172,6 +149,16 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
     }
 
     // MARK: - Helper functions
+    func configureTitle() {
+        teamTitle.text = team.teamName
+        
+        NSLayoutConstraint.activate([
+            teamTitle.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            teamTitle.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            teamTitle.topAnchor.constraint(equalTo: safeArea.topAnchor)
+        ])
+    }
+    
     func configureTeamTableView() {
         teamTableView.delegate = self
         teamTableView.dataSource = self
@@ -179,7 +166,7 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         NSLayoutConstraint.activate([
             teamTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
             teamTableView.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -20),
-            teamTableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            teamTableView.topAnchor.constraint(equalTo: teamTitle.bottomAnchor),
             teamTableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/3)
         ])
     }

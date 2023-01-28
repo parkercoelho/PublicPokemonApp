@@ -166,10 +166,11 @@ class TypeChartCalculationCollectionViewCell: UICollectionViewCell {
                 let label = UILabel(statName: String(Int(double)))
                 label.translatesAutoresizingMaskIntoConstraints = false
                 label.layer.cornerRadius = 10
+                label.textColor = UIColor(named: "TypeCalcsGood")
                 label.clipsToBounds = true
                 return label
             }()
-            setUpLabel(number: n, label: label, stack: stack, textColor: UIColor(named: "Normal"))
+            setUpLabel(number: n, label: label, stack: stack, textColor: UIColor(named: "TypeCalcsDarkGreen"))
             if Int(label.text!) ?? 0 > 2 && Int(label.text!) ?? 0 < 4 {
                 if weaknessOrResistance == self.delegate!.team.teamResistances {
                     label.backgroundColor = UIColor(named: "TypeCalcsGood")
