@@ -8,7 +8,7 @@
 import UIKit
 import PokemonAPI
 
-class TeamManagerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource {
+class TeamManagerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
     var delegate: TeamsListTableViewController?
     let numberOfTypes: Int = 18
@@ -41,6 +41,9 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
                 cell.configurePokemonNameLabel(pokemon: team.pokemonOnTeam[indexPath.row])
                 cell.configurePokemonImage(pokemon: team.pokemonOnTeam[indexPath.row])
             }
+            let cellBackgroundView = UIView()
+            cellBackgroundView.backgroundColor = UIColor(named: "BackgroundColor")
+            cell.selectedBackgroundView = cellBackgroundView
             return cell
         }
         
@@ -62,7 +65,7 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         table.register(TeamTableViewCell.self, forCellReuseIdentifier: "teamTableCell")
-        
+        table.separatorColor = .clear
         return table
     }()
     
@@ -109,18 +112,33 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
 
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.isScrollEnabled = false
         collection.register(TypeChartCalculationCollectionViewCell.self, forCellWithReuseIdentifier: "typeCell")
         collection.register(TypeChartCalculationCollectionViewCell.self, forCellWithReuseIdentifier: "calcsSumCell")
         collection.register(TypeCollectionHeaderView.self, forSupplementaryViewOfKind: "header", withReuseIdentifier: "HeaderSupplementaryView")
         collection.register(TypeLabelCollectionViewCell.self, forCellWithReuseIdentifier: "typeLabelStack")
         return collection
     }()
+    let containerScrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        scroll.showsVerticalScrollIndicator = true
+        scroll.isDirectionalLockEnabled = true
+        scroll.showsHorizontalScrollIndicator = false
+        return scroll
+    }()
     
+    let scrollContentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     // MARK: - Lifecycles
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
                 
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
@@ -132,10 +150,31 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         
         view.layer.addSublayer(gradientLayer)
         view.addSubview(teamTitle)
-        view.addSubview(teamTableView)
-        view.addSubview(teamCollectionView)
-        view.addSubview(searchSuggestionsTableView)
-        view.addSubview(typeCollectionView)
+        view.addSubview(containerScrollView)
+        containerScrollView.addSubview(scrollContentView)
+        scrollContentView.addSubview(teamTableView)
+        scrollContentView.addSubview(teamCollectionView)
+        scrollContentView.addSubview(searchSuggestionsTableView)
+        scrollContentView.addSubview(typeCollectionView)
+        
+        containerScrollView.topAnchor.constraint(equalTo: teamTitle.bottomAnchor).isActive = true
+        containerScrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
+        containerScrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
+        containerScrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
+        
+        NSLayoutConstraint.activate([
+            scrollContentView.topAnchor.constraint(equalTo: containerScrollView.topAnchor),
+            scrollContentView.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor),
+            scrollContentView.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor),
+            scrollContentView.bottomAnchor.constraint(equalTo: containerScrollView.bottomAnchor),
+            scrollContentView.centerXAnchor.constraint(equalTo: containerScrollView.centerXAnchor)
+        ])
+        
+//        view.addSubview(teamTitle)
+//        view.addSubview(teamTableView)
+//        view.addSubview(teamCollectionView)
+//        view.addSubview(searchSuggestionsTableView)
+//        view.addSubview(typeCollectionView)
         configureTitle()
         configureTeamTableView()
         configureTeamCollectionView()
@@ -145,7 +184,6 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
-        
     }
 
     // MARK: - Helper functions
@@ -153,8 +191,8 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         teamTitle.text = team.teamName
         
         NSLayoutConstraint.activate([
-            teamTitle.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            teamTitle.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            teamTitle.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor),
+            teamTitle.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor),
             teamTitle.topAnchor.constraint(equalTo: safeArea.topAnchor)
         ])
     }
@@ -164,21 +202,11 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         teamTableView.dataSource = self
         teamTableView.backgroundColor = .clear
         NSLayoutConstraint.activate([
-            teamTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
-            teamTableView.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -20),
-            teamTableView.topAnchor.constraint(equalTo: teamTitle.bottomAnchor),
-            teamTableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/3)
-        ])
-    }
-    func configureTypeCollectionView() {
-        typeCollectionView.dataSource = self
-        typeCollectionView.delegate = self
-        typeCollectionView.backgroundColor = .clear
-        NSLayoutConstraint.activate([
-            typeCollectionView.topAnchor.constraint(equalTo: searchSuggestionsTableView.bottomAnchor),
-            typeCollectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
-            typeCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
-            typeCollectionView.heightAnchor.constraint(equalToConstant: 500)
+            teamTableView.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 10),
+            teamTableView.trailingAnchor.constraint(equalTo: scrollContentView.centerXAnchor, constant: -20),
+            teamTableView.topAnchor.constraint(equalTo: scrollContentView.topAnchor),
+            teamTableView.heightAnchor.constraint(equalTo: scrollContentView.heightAnchor, multiplier: 1/3)
+            
         ])
     }
     func configureTeamCollectionView() {
@@ -186,18 +214,30 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         teamCollectionView.delegate = self
         teamCollectionView.backgroundColor = .clear
         NSLayoutConstraint.activate([
-            teamCollectionView.topAnchor.constraint(equalTo: view.centerYAnchor),
-            teamCollectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
-            teamCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
+            teamCollectionView.topAnchor.constraint(equalTo: teamTableView.bottomAnchor),
+            teamCollectionView.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 10),
+            teamCollectionView.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -10),
             teamCollectionView.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    func configureTypeCollectionView() {
+        typeCollectionView.dataSource = self
+        typeCollectionView.delegate = self
+        typeCollectionView.backgroundColor = .clear
+        NSLayoutConstraint.activate([
+            typeCollectionView.topAnchor.constraint(equalTo: teamCollectionView.bottomAnchor),
+            typeCollectionView.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 10),
+            typeCollectionView.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -10),
+            typeCollectionView.heightAnchor.constraint(equalToConstant: 500),
+            typeCollectionView.bottomAnchor.constraint(equalTo: scrollContentView.bottomAnchor)
         ])
     }
     func configureTableView() {
         searchSuggestionsTableView.delegate = self
         searchSuggestionsTableView.dataSource = self
         NSLayoutConstraint.activate([
-            searchSuggestionsTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            searchSuggestionsTableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            searchSuggestionsTableView.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor),
+            searchSuggestionsTableView.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor),
             searchSuggestionsTableView.topAnchor.constraint(equalTo: teamCollectionView.bottomAnchor),
             searchSuggestionsTableView.heightAnchor.constraint(equalToConstant: 0) // change this from zero to a different height to make the table view reappear
         ])
@@ -252,14 +292,31 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
             return UICollectionViewCell()
         }
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row >= team.pokemonOnTeam.count {
+            coordinator?.toTeamBuilderFromTeamManager(pokemonToExamine: TeamPokemon(name: "Squirtle", hp: 20, attack: 20, defense: 20, specialAttack: 20, specialDefense: 20, speed: 120, types: [.electric], image: nil), delegate: self)
+        }
+        else if indexPath.row < team.pokemonOnTeam.count {
+            coordinator?.toTeamBuilderFromTeamManager(pokemonToExamine: team.pokemonOnTeam[indexPath.row], delegate: self)
+        }
+    }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let releaseAction = UIContextualAction(style: .destructive, title: "Release") { (_, _, completionHandler) in
+            if let delegate = self.delegate {
+                PersistenceFunctions.deletePokemonFromTeam(teams: delegate.teams, team: self.team, indexToRemove: indexPath.row)
+                tableView.reloadData()
+                self.teamCollectionView.reloadData()
+                completionHandler(true)
+            }
+        }
+        releaseAction.image = UIImage(systemName: "trash")
+        releaseAction.backgroundColor = UIColor(named: "TypeCalcsRed")
+        let configuration = UISwipeActionsConfiguration(actions: [releaseAction])
+        return configuration
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == self.teamCollectionView {
-            
-            if indexPath.row > 0 && team.pokemonOnTeam.count < 6 {
-                let pokemonToAdd = TeamPokemon(name: "squirtle", hp: 1, attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1, types: [.water], image: nil)
-                coordinator?.toTeamBuilderFromTeamManager(pokemonToExamine: pokemonToAdd, delegate: self)
-            }
-            
             if indexPath.row > 0 && indexPath.row <= team.pokemonOnTeam.count {
                 coordinator?.toTeamBuilderFromTeamManager(pokemonToExamine: team.pokemonOnTeam[indexPath.row-1], delegate: self)
             }
@@ -289,7 +346,5 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderSupplementaryView", for: indexPath) as! TypeCollectionHeaderView
         return headerView
     }
-    
-
     // MARK: - CollectionView DataSource
 }

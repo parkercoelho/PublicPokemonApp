@@ -72,8 +72,6 @@ class PersistenceFunctions {
     
     static func deletePokemonFromTeam(teams: [Team], team: Team, indexToRemove: Int) {
         team.pokemonOnTeam.remove(at: indexToRemove)
-        // Do I need to inform the higher level teams array that a pokemon was deleted? Or does that auto flow through?
-        // I think not, as long as the 'team' I pass in is in the teams object I want to save
         saveTeams(teams: teams)
     }
 

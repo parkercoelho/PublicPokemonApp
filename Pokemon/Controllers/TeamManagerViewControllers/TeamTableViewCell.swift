@@ -42,6 +42,7 @@ class TeamTableViewCell: UITableViewCell {
         contentView.subviews.forEach { view in
             view.removeFromSuperview()
         }
+        self.pokeBallImageView.image = UIImage(named: "whitePokeBallImage")
     }
     
     func constrainCell() {

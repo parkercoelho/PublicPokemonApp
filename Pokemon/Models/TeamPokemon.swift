@@ -19,7 +19,7 @@ class TeamPokemon {
     var image: UIImage?
     var typeDamageMultiples: [Double] = []
     var types: [PokemonType]
-    
+    var abilities: [String] = []
     
     init(name: String, hp: Int, attack: Int, defense: Int,
          specialAttack: Int, specialDefense: Int, speed: Int, types: [PokemonType], image: UIImage?) {
@@ -47,12 +47,21 @@ class TeamPokemon {
         
         self.types = []
         addTypesFromPKM(pokemon: pokemon)
+        self.abilities = []
+        addAbilitiesFromPKM(pokemon: pokemon)
         self.typeDamageMultiples = calcTypeAdvantages(for: types)
+        
         
         guard let spriteUrl = URL(string: pokemon!.sprites?.frontDefault ?? "failure") else {return}
         if let data = try? Data(contentsOf: spriteUrl) {
             self.image = UIImage(data: data)
         } else {self.image = .checkmark}
+    }
+    
+    func addAbilitiesFromPKM(pokemon: PKMPokemon?) {
+        pokemon!.abilities!.forEach({ ability in
+            self.abilities.append(ability.ability!.name!)
+        })
     }
     
     func addTypesFromPKM(pokemon: PKMPokemon?) {

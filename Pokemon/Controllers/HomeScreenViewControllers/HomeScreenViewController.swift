@@ -34,7 +34,7 @@ class HomeScreenViewController: UIViewController {
     let teamManagerButton: HomeScreenStackView = {
         let button = HomeScreenStackView(title: "Competitive Teams", image: .add)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.button.addTarget(self, action: #selector(navToTeamsList), for: .touchUpInside)
+//        button.button.addTarget(self, action: #selector(navToTeamsList), for: .touchUpInside)
         return button
     }()
     let containerView: UIView = {
@@ -91,22 +91,26 @@ class HomeScreenViewController: UIViewController {
         gradientLayer.frame = view.bounds
         gradientLayer.colors = [UIColor.white.cgColor, UIColor(named: "TeaGreen")!.cgColor]
         gradientLayer.zPosition = -2
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
         
         view.layer.addSublayer(gradientLayer)
-        makeTeamTappable()
-        
+//        makeTeamTappable()
         Task {
             do {
                 try await initializeFromPersistedData(pokemon: PersistenceFunctions.loadTeamDictionaries())
                 print(teams)
+                makeTeamTappable()
+
                 //I could display the button to proceed to the teams here because then user can only tap it once everything has been loaded
             } catch {
                 print("error initializing data \(error)")
             }
         }
+
         print("View did load on home screen")
+
+
     }
     
     // MARK: - Functions

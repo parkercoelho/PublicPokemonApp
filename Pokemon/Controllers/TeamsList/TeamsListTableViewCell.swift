@@ -61,7 +61,6 @@ class TeamsListTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColle
             teamCardView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 5),
             
             teamNameLabel.leadingAnchor.constraint(equalTo: teamCardView.leadingAnchor, constant: 5),
-//            teamNameLabel.trailingAnchor.constraint(equalTo: teamCardView.trailingAnchor),
             teamNameLabel.topAnchor.constraint(equalTo: teamCardView.topAnchor),
             teamNameLabel.bottomAnchor.constraint(equalTo: teamCardView.bottomAnchor),
             
@@ -75,8 +74,6 @@ class TeamsListTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColle
         contentView.addSubview(addToTeamViewButton)
         addToTeamViewButton.addSubview(addToTeamLabel)
         NSLayoutConstraint.activate([
-//            addToTeamViewButton.leadingAnchor.constraint(equalTo: leadingAnchor),
-//            addToTeamViewButton.trailingAnchor.constraint(equalTo: trailingAnchor),
             addToTeamViewButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             addToTeamViewButton.centerYAnchor.constraint(equalTo: centerYAnchor),
             addToTeamViewButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
@@ -93,6 +90,17 @@ class TeamsListTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColle
         addAllViews()
         constrainCell()
         teamNameLabel.text = team?.teamName ?? "Error occurred"
+    }
+    
+    func setUpAdditionCell() {
+        let additionLabel = UILabel(statName: "Tap here to add a Pokemon!")
+        additionLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(additionLabel)
+        NSLayoutConstraint.activate([
+            additionLabel.leadingAnchor.constraint(equalTo: leadingAnchor)
+            //still need to add other constraints
+            
+        ])
     }
 
     override func awakeFromNib() {
@@ -125,21 +133,18 @@ class TeamsListTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColle
         collection.backgroundColor = .clear
         return collection
     }()
-    
     func configureTeamCollectionView() {
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
         teamCollectionView.backgroundColor = .clear
         teamCollectionView.translatesAutoresizingMaskIntoConstraints = false
     }
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let cellTeam = team else {
             return 0
         }
         return cellTeam.pokemonOnTeam.count
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamCell", for: indexPath) as! TeamCollectionViewCell
         cell.teamsListDelegate = self

@@ -23,8 +23,6 @@ class TeamsListTableViewController: UIViewController, UITableViewDelegate, UITab
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
@@ -42,7 +40,6 @@ class TeamsListTableViewController: UIViewController, UITableViewDelegate, UITab
         self.navigationItem.rightBarButtonItem = self.editButtonItem
         self.teamsListTableView.register(TeamsListTableViewCell.self, forCellReuseIdentifier: "cell")
         }
-    
     override func viewWillAppear(_ animated: Bool) {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
@@ -53,22 +50,18 @@ class TeamsListTableViewController: UIViewController, UITableViewDelegate, UITab
         
         view.layer.insertSublayer(gradientLayer, at: 0)
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .purple
+        appearance.backgroundColor = .clear
         navigationController?.navigationBar.standardAppearance = appearance
         teamsListTableView.reloadData()
         
     }
 
-    // MARK: - Table view data source
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return teams.count + 1
-//    }
+    // MARK: - Table view data source and delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == teamsListTableView {
             return teams.count+1
         } else { return 0}
     }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == teams.count {
             let float = CGFloat(100)
@@ -77,7 +70,6 @@ class TeamsListTableViewController: UIViewController, UITableViewDelegate, UITab
         
         else { return 50 }
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: teamsListCell, for: indexPath) as? TeamsListTableViewCell else {return UITableViewCell()}
         
@@ -128,7 +120,13 @@ class TeamsListTableViewController: UIViewController, UITableViewDelegate, UITab
         }
         
         else if indexPath.row == teams.count {
-            let newTeam = Team(team: [], teamName: "Team: \(indexPath.row+1)")
+            var newTeamName = "Team: \(indexPath.row+1)"
+            while teams.contains(where: { team in
+                team.teamName == newTeamName
+            }) {
+                newTeamName += " (1)"
+            }
+            let newTeam = Team(team: [], teamName: newTeamName)
             PersistenceFunctions.addTeam(teams: &self.teams, teamToAdd: newTeam)
             delegate?.teams = self.teams
             tableView.reloadData()

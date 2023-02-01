@@ -12,7 +12,7 @@ class TeamBuilderViewController: UIViewController {
     var coordinator: MainCoordinator?
     var selectedTeamPokemon: TeamPokemon?
     var delegate: TeamManagerViewController?
-    var teamPokemon: TeamPokemon = TeamPokemon(name: "squirtle", hp: 45, attack: 55, defense: 65, specialAttack: 75, specialDefense: 85, speed: 120, types: [.water], image: nil)
+    var teamPokemon: TeamPokemon = TeamPokemon(name: "Squirtle", hp: 45, attack: 55, defense: 65, specialAttack: 75, specialDefense: 85, speed: 120, types: [.water], image: nil)
     
     var hpWidthAnchor: NSLayoutConstraint!
     var attackWidthAnchor: NSLayoutConstraint!
@@ -20,7 +20,6 @@ class TeamBuilderViewController: UIViewController {
     var specialAttackWidthAnchor: NSLayoutConstraint!
     var specialDefenseWidthAnchor: NSLayoutConstraint!
     var speedWidthAnchor: NSLayoutConstraint!
-    
     
     // MARK: - UI Components
     var safeArea: UILayoutGuide {
@@ -48,6 +47,12 @@ class TeamBuilderViewController: UIViewController {
         let stack = UIStackView()
         return stack
     }()
+    var metaView: UIView = {
+        let meta = UIView()
+        meta.translatesAutoresizingMaskIntoConstraints = false
+        meta.backgroundColor = .clear
+        return meta
+    }()
     let pokemonNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Insert name here"
@@ -62,10 +67,109 @@ class TeamBuilderViewController: UIViewController {
         image.image = .strokedCheckmark
         return image
     }()
-    let abilitiesStackView: UIStackView = {
+    let abilitiesLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Abilities:"
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        label.font = UIFont(name: "American Typewriter Bold", size: 20)
+        label.textAlignment = .center
+        return label
+    }()
+    var abilitiesStackView: UIStackView = {
         let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+    let abilitiesLabelOne: UILabel = {
+        let label = UILabel(statName: "")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")!
+        return label
+    }()
+    let abilitiesLabelContainerOne: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    let abilitiesLabelContainerTwo: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    let abilitiesLabelContainerThree: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    let abilitiesLabelTwo: UILabel = {
+        let label = UILabel(statName: "")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")!
+        return label
+    }()
+    let abilitiesLabelThree: UILabel = {
+        let label = UILabel(statName: "")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")!
+        return label
+    }()
+    let typesLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Types:"
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        label.font = UIFont(name: "American Typewriter Bold", size: 20)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    let newTypesStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    let typeOneView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .red
+        view.layer.cornerRadius = 10
+        return view
+    }()
+    let typeTwoView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .blue
+        
+        view.layer.cornerRadius = 10
+        return view
+    }()
+    
+    let typeLabelOne: UILabel = {
+        let label = UILabel(statName: "Type 1")
+        label.textColor = .white
+        label.textAlignment = .center 
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "ArialRoundedMTBold", size: 12)
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    let typeLabelTwo: UILabel = {
+        let label = UILabel(statName: "Type 2")
+        label.textColor = .black
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "ArialRoundedMTBold", size: 12)
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    
     let hpStack: UIStackView = {
         let stack = UIStackView()
         return stack
@@ -90,26 +194,96 @@ class TeamBuilderViewController: UIViewController {
         let stack = UIStackView()
         return stack
     }()
-    let hpLabel = {return UILabel(statName: "hp")}()
-    let attackLabel = {return UILabel(statName: "attack")}()
-    let defenseLabel = {return UILabel(statName: "defense")}()
-    let specialAttackLabel = {return UILabel(statName: "special attack")}()
-    let specialDefenseLabel = {return UILabel(statName: "special defense")}()
-    let speedLabel = {return UILabel(statName: "speed")}()
+    let hpLabel: UILabel = {
+        let label = UILabel(statName: "HP")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
+    let attackLabel: UILabel = {
+        let label = UILabel(statName: "Att")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
+    let defenseLabel: UILabel = {
+        let label = UILabel(statName: "Def")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
+    let specialAttackLabel: UILabel = {
+        let label = UILabel(statName: "Sp. Att")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
+    let specialDefenseLabel: UILabel = {
+        let label = UILabel(statName: "Sp. Def")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
+    let speedLabel: UILabel = {
+        let label = UILabel(statName: "Spe")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
     let addToTeamButton: UIButton = {
         let button = UIButton(type: .roundedRect)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .darkGray
+        button.backgroundColor = UIColor(named: "TypeCalcsDarkGreen")
         button.layer.cornerRadius = 12
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 3
         button.setTitle("Add to team", for: .normal)
+        button.setTitle("Added!", for: .selected)
         button.setTitleColor(UIColor.white, for: .normal)
         return button
     }()
+    var hpInt: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
+    var attackInt: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
+    var defenseInt: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
+    var specialAttackInt: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
+    var specialDefenseInt: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
+    var speedInt: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+        return label
+    }()
+    
     let testContainerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
-        view.isHidden = true
+        view.isHidden = false
         return view
     }()
     
@@ -132,7 +306,6 @@ class TeamBuilderViewController: UIViewController {
         addToTeamButton.addTarget(self, action: #selector(addPokemonToDelegateTeam), for: .touchUpInside)
         setUpView()
         constrainViews()
-        //testing updating below
         reconfigureStatStacks(for: teamPokemon)
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -143,56 +316,78 @@ class TeamBuilderViewController: UIViewController {
     
     // MARK: - UI Functions
     func setUpView() {
-        view.backgroundColor = .white
         addAllViews()
         configureTableView()
         configureCollectionView()
         configureSearchBar()
+        configureMetaView()
         configureStatStackView()
-        configureIndividualStatStack(for: hpStack, stat: hpLabel)
-        configureIndividualStatStack(for: attackStack, stat: attackLabel)
-        configureIndividualStatStack(for: defenseStack, stat: defenseLabel)
-        configureIndividualStatStack(for: specialAttackStack, stat: specialAttackLabel)
-        configureIndividualStatStack(for: specialDefenseStack, stat: specialDefenseLabel)
-        configureIndividualStatStack(for: speedStack, stat: speedLabel)
-        configureAbilitiesStackView()
-        
+        configureIndividualStatStack(for: hpStack, stat: hpLabel, statInt: hpInt)
+        configureIndividualStatStack(for: attackStack, stat: attackLabel, statInt: attackInt)
+        configureIndividualStatStack(for: defenseStack, stat: defenseLabel, statInt: defenseInt)
+        configureIndividualStatStack(for: specialAttackStack, stat: specialAttackLabel, statInt: specialAttackInt)
+        configureIndividualStatStack(for: specialDefenseStack, stat: specialDefenseLabel, statInt: specialDefenseInt)
+        configureIndividualStatStack(for: speedStack, stat: speedLabel, statInt: speedInt)
+
         updateTeamPokemonViews(teamPokemon: teamPokemon)
     }
     func addAllViews() {
-//
-//        self.view.addSubview(searchBar)
-//        self.view.addSubview(pokemonNameLabel)
-//        self.view.addSubview(pokemonImageView)
-//        self.view.addSubview(abilitiesStackView)
-//        self.view.addSubview(statsStack)
-//        self.view.addSubview(teamCollectionView)
-//        self.view.addSubview(addToTeamButton)
-//
         self.view.addSubview(searchBar)
         self.view.addSubview(searchSuggestionsTableView)
         testContainerView.addSubview(pokemonNameLabel)
         testContainerView.addSubview(pokemonImageView)
-        testContainerView.addSubview(abilitiesStackView)
+        testContainerView.addSubview(metaView)
         testContainerView.addSubview(statsStack)
         testContainerView.addSubview(teamCollectionView)
-        testContainerView.addSubview(addToTeamButton)
+        self.view.addSubview(addToTeamButton)
         view.addSubview(testContainerView)
+        
+        
     }
     func updateTeamPokemonViews(teamPokemon: TeamPokemon) {
         pokemonImageView.image = teamPokemon.image
         pokemonNameLabel.text = teamPokemon.name.capitalized
-        //set up abilities later
+        
+        teamPokemon.abilities.enumerated().forEach { (n, abilityName) in
+            switch n {
+            case 0:
+                abilitiesLabelOne.text = abilityName
+            case 1:
+                abilitiesLabelTwo.text = abilityName
+            case 2:
+                abilitiesLabelThree.text = abilityName
+            default:
+                print("Error adding abilities to ability stack view")
+            }
+        }
+        createTypeViews(teamPokemon: teamPokemon)
         reconfigureStatStacks(for: teamPokemon)
     }
     
     @objc func addPokemonToDelegateTeam() {
         print("Button tapped")
-        delegate?.team.add(pokemon: teamPokemon)
-        print("pokemon added")
-        delegate?.teamTableView.reloadData()
-        delegate?.teamCollectionView.reloadData()
-        delegate?.typeCollectionView.reloadData()
+        if teamPokemon.name == "Squirtle", teamPokemon.speed == 120 {
+            // this will ensure they don't add the fake initial pokemon
+            print("Please search for a pokemon")
+        } else if delegate!.team.pokemonOnTeam.count == 6 {
+            print("Already 6 pokemon on team")
+        }
+        else {
+        if let delegate = delegate {
+            if let bigDelegate = delegate.delegate {
+                PersistenceFunctions.addPokemonToTeam(teams: bigDelegate.teams, team: delegate.team, newPokemon: teamPokemon)
+                delegate.teamTableView.visibleCells.forEach { cell in
+                    cell.contentView.subviews.forEach { view in
+                        view.removeFromSuperview()
+                    }
+                }
+                delegate.teamTableView.reloadData()
+                delegate.teamCollectionView.reloadData()
+                delegate.typeCollectionView.reloadData()
+            }
+            navigationController?.popViewController(animated: true)
+        }
+            print("pokemon added")}
     }
     
     // MARK: - Configurations
@@ -227,12 +422,19 @@ class TeamBuilderViewController: UIViewController {
         teamCollectionView.isHidden = true
     }
     func reconfigureStatStacks(for pokemon: TeamPokemon) {
-        hpStack.arrangedSubviews[1].updateBarColor(on: pokemon.hp)
-        attackStack.arrangedSubviews[1].updateBarColor(on: pokemon.attack)
-        defenseStack.arrangedSubviews[1].updateBarColor(on: pokemon.defense)
-        specialAttackStack.arrangedSubviews[1].updateBarColor(on: pokemon.specialAttack)
-        specialDefenseStack.arrangedSubviews[1].updateBarColor(on: pokemon.specialDefense)
-        speedStack.arrangedSubviews[1].updateBarColor(on: pokemon.speed)
+        hpInt.text = "\(pokemon.hp) "
+        attackInt.text = "\(pokemon.attack) "
+        defenseInt.text = "\(pokemon.defense) "
+        specialAttackInt.text = "\(pokemon.specialAttack) "
+        specialDefenseInt.text = "\(pokemon.specialDefense) "
+        speedInt.text = "\(pokemon.speed) "
+        
+        hpStack.arrangedSubviews[2].updateBarColor(on: pokemon.hp)
+        attackStack.arrangedSubviews[2].updateBarColor(on: pokemon.attack)
+        defenseStack.arrangedSubviews[2].updateBarColor(on: pokemon.defense)
+        specialAttackStack.arrangedSubviews[2].updateBarColor(on: pokemon.specialAttack)
+        specialDefenseStack.arrangedSubviews[2].updateBarColor(on: pokemon.specialDefense)
+        speedStack.arrangedSubviews[2].updateBarColor(on: pokemon.speed)
         
         updateBarWidth(widthAnchor: hpWidthAnchor, stat: CGFloat(pokemon.hp))
         updateBarWidth(widthAnchor: attackWidthAnchor, stat: CGFloat(pokemon.attack))
@@ -251,42 +453,51 @@ class TeamBuilderViewController: UIViewController {
         widthAnchor.isActive = true
     }
     
-    func configureIndividualStatStack(for stack: UIStackView, stat: UILabel) {
+    func configureIndividualStatStack(for stack: UIStackView, stat: UILabel, statInt: UILabel) {
         stack.addArrangedSubview(stat)
         let barViewContainer = UIView()
         barViewContainer.layer.cornerRadius = 10
         barViewContainer.layer.masksToBounds = true
         stack.axis = .horizontal
         stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.addArrangedSubview(statInt)
         stack.addArrangedSubview(barViewContainer)
         NSLayoutConstraint.activate([
             // instead of making the constant below 50, it should be a variable dependent on phone type
-            barViewContainer.leadingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: -50)])
+            statInt.leadingAnchor.constraint(equalTo: stat.trailingAnchor),
+            statInt.trailingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: -50),
+            barViewContainer.leadingAnchor.constraint(equalTo: statInt.trailingAnchor, constant: 50)])
         
         switch stat.text {
-        case "hp":
+        case "HP":
             barViewContainer.updateBarColor(on: teamPokemon.hp)
+            statInt.text = "\(teamPokemon.hp) "
             hpWidthAnchor = barViewContainer.widthAnchor.constraint(equalToConstant: CGFloat(teamPokemon.hp))
             updateBarWidth(widthAnchor: hpWidthAnchor, stat: CGFloat(teamPokemon.hp))
 
-        case "attack":
+        case "Att":
             barViewContainer.updateBarColor(on: teamPokemon.attack)
+            statInt.text = "\(teamPokemon.attack) "
             attackWidthAnchor = barViewContainer.widthAnchor.constraint(equalToConstant: CGFloat(teamPokemon.attack))
             updateBarWidth(widthAnchor: attackWidthAnchor, stat: CGFloat(teamPokemon.attack))
-        case "defense":
+        case "Def":
             barViewContainer.updateBarColor(on: teamPokemon.defense)
+            statInt.text = "\(teamPokemon.defense) "
             defenseWidthAnchor = barViewContainer.widthAnchor.constraint(equalToConstant: CGFloat(teamPokemon.defense))
             updateBarWidth(widthAnchor: defenseWidthAnchor, stat: CGFloat(teamPokemon.defense))
-        case "special attack":
+        case "Sp. Att":
             barViewContainer.updateBarColor(on: teamPokemon.specialAttack)
+            statInt.text = "\(teamPokemon.specialAttack) "
             specialAttackWidthAnchor = barViewContainer.widthAnchor.constraint(equalToConstant: CGFloat(teamPokemon.specialAttack))
             updateBarWidth(widthAnchor: specialAttackWidthAnchor, stat: CGFloat(teamPokemon.specialAttack))
-        case "special defense":
+        case "Sp. Def":
             barViewContainer.updateBarColor(on: teamPokemon.specialDefense)
+            statInt.text = "\(teamPokemon.specialDefense) "
             specialDefenseWidthAnchor = barViewContainer.widthAnchor.constraint(equalToConstant: CGFloat(teamPokemon.specialDefense))
             updateBarWidth(widthAnchor: specialDefenseWidthAnchor, stat: CGFloat(teamPokemon.specialDefense))
-        case "speed":
+        case "Spe":
             barViewContainer.updateBarColor(on: teamPokemon.speed)
+            statInt.text = "\(teamPokemon.speed) "
             speedWidthAnchor = barViewContainer.widthAnchor.constraint(equalToConstant: CGFloat(teamPokemon.speed))
             updateBarWidth(widthAnchor: speedWidthAnchor, stat: CGFloat(teamPokemon.speed))
         default:NSLayoutConstraint.activate([
@@ -308,13 +519,179 @@ class TeamBuilderViewController: UIViewController {
         statsStack.distribution = .equalSpacing
         statsStack.axis = .vertical
     }
+    func configureMetaView() {
+        metaView.addSubview(abilitiesLabel)
+        metaView.addSubview(abilitiesStackView)
+        metaView.addSubview(typesLabel)
+        metaView.addSubview(newTypesStack)
+        configureAbilitiesStackView()
+        configureTypeStackView()
+        abilitiesLabel.translatesAutoresizingMaskIntoConstraints = false
+        abilitiesStackView.translatesAutoresizingMaskIntoConstraints = false
+        typesLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
     func configureAbilitiesStackView() {
-        abilitiesStackView.addArrangedSubview(UILabel(statName: "create Ability Label"))
-    
         abilitiesStackView.alignment = .center
         abilitiesStackView.axis = .vertical
         abilitiesStackView.distribution = .fillEqually
+        abilitiesStackView.addArrangedSubview(abilitiesLabelContainerOne)
+        abilitiesLabelContainerOne.addSubview(abilitiesLabelOne)
+        abilitiesStackView.addArrangedSubview(abilitiesLabelContainerTwo)
+        abilitiesLabelContainerTwo.addSubview(abilitiesLabelTwo)
+        abilitiesStackView.addArrangedSubview(abilitiesLabelContainerThree)
+        abilitiesLabelContainerThree.addSubview(abilitiesLabelThree)
     }
+    func configureTypeStackView() {
+        newTypesStack.distribution = . fillEqually
+        newTypesStack.addArrangedSubview(typeOneView)
+        typeOneView.addSubview(typeLabelOne)
+        newTypesStack.addArrangedSubview(typeTwoView)
+        typeTwoView.addSubview(typeLabelTwo)
+    }
+    
+    func constrainAbilitiesStackView() {
+        NSLayoutConstraint.activate([
+            // Container leading anchors matching stack's leading anchor
+            abilitiesLabelContainerOne.leadingAnchor.constraint(equalTo: abilitiesStackView.leadingAnchor),
+            abilitiesLabelContainerTwo.leadingAnchor.constraint(equalTo: abilitiesStackView.leadingAnchor),
+            abilitiesLabelContainerThree.leadingAnchor.constraint(equalTo: abilitiesStackView.leadingAnchor),
+            // Container trailing matching stack's trailing
+            abilitiesLabelContainerOne.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+            abilitiesLabelContainerTwo.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+            abilitiesLabelContainerThree.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+            // Labels leading matching stack's leading
+            abilitiesLabelOne.leadingAnchor.constraint(equalTo: abilitiesStackView.leadingAnchor),
+            abilitiesLabelTwo.leadingAnchor.constraint(equalTo: abilitiesStackView.leadingAnchor),
+            abilitiesLabelThree.leadingAnchor.constraint(equalTo: abilitiesStackView.leadingAnchor),
+            // Labels trailing matching stack's trailing
+            abilitiesLabelOne.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+            abilitiesLabelOne.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+            abilitiesLabelOne.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+            
+            abilitiesLabelTwo.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+            abilitiesLabelTwo.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+            abilitiesLabelTwo.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+
+            abilitiesLabelThree.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+            abilitiesLabelThree.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+            abilitiesLabelThree.trailingAnchor.constraint(equalTo: abilitiesStackView.trailingAnchor),
+
+            // One's top anchor
+            abilitiesLabelContainerOne.topAnchor.constraint(equalTo: abilitiesStackView.topAnchor),
+            abilitiesLabelOne.topAnchor.constraint(equalTo: abilitiesLabelContainerOne.topAnchor),
+            abilitiesLabelContainerOne.heightAnchor.constraint(equalTo: abilitiesStackView.heightAnchor,multiplier: 1/3),
+            // Two's top anchor
+            abilitiesLabelContainerTwo.topAnchor.constraint(equalTo: abilitiesLabelContainerOne.bottomAnchor),
+            abilitiesLabelTwo.topAnchor.constraint(equalTo: abilitiesLabelContainerTwo.topAnchor),
+            // Three's top anchor
+            abilitiesLabelContainerThree.topAnchor.constraint(equalTo: abilitiesLabelContainerTwo.bottomAnchor),
+            abilitiesLabelThree.topAnchor.constraint(equalTo: abilitiesLabelContainerThree.topAnchor),
+
+            abilitiesLabelContainerThree.bottomAnchor.constraint(equalTo: abilitiesStackView.bottomAnchor)
+        ])
+    }
+    func constrainTypeStackView() {
+        NSLayoutConstraint.activate([
+            typeOneView.leadingAnchor.constraint(equalTo: newTypesStack.leadingAnchor),
+            typeOneView.trailingAnchor.constraint(equalTo: newTypesStack.centerXAnchor, constant: 1),
+            typeOneView.topAnchor.constraint(equalTo: newTypesStack.topAnchor),
+            typeOneView.bottomAnchor.constraint(equalTo: newTypesStack.bottomAnchor, constant: 5),
+            
+            typeLabelOne.leadingAnchor.constraint(equalTo: typeOneView.leadingAnchor),
+            typeLabelOne.trailingAnchor.constraint(equalTo: typeOneView.trailingAnchor),
+            typeLabelOne.topAnchor.constraint(equalTo: typeOneView.topAnchor),
+            typeLabelOne.bottomAnchor.constraint(equalTo: typeOneView.bottomAnchor),
+            
+            typeTwoView.leadingAnchor.constraint(equalTo: newTypesStack.centerXAnchor, constant: 1),
+            typeTwoView.trailingAnchor.constraint(equalTo: newTypesStack.trailingAnchor, constant: 5),
+            typeTwoView.topAnchor.constraint(equalTo: newTypesStack.topAnchor),
+            typeTwoView.bottomAnchor.constraint(equalTo: newTypesStack.bottomAnchor),
+            
+            typeLabelTwo.leadingAnchor.constraint(equalTo: typeTwoView.leadingAnchor),
+            typeLabelTwo.trailingAnchor.constraint(equalTo: typeTwoView.trailingAnchor),
+            typeLabelTwo.topAnchor.constraint(equalTo: typeTwoView.topAnchor),
+            typeLabelTwo.bottomAnchor.constraint(equalTo: typeTwoView.bottomAnchor),
+        ])
+    }
+    
+    func createTypeViews(teamPokemon: TeamPokemon) {
+        teamPokemon.types.enumerated().forEach { (n, type) in
+            var newColor: UIColor = .clear
+            var textColor: UIColor = .white
+            var typeName: String = ""
+            switch type {
+            case .normal:
+                newColor = UIColor(named: "Normal")!
+                textColor = UIColor(named: "TypeCalcsGood")!
+                typeName = "Normal"
+            case .fire:
+                newColor = UIColor(named: "Fire")!
+                typeName = "Fire"
+            case .water:
+                newColor = UIColor(named: "Water")!
+                typeName = "Water"
+            case .electric:
+                typeName = "Electric"
+                newColor = UIColor(named: "Electric")!
+            case .grass:
+                typeName = "Grass"
+                newColor = UIColor(named: "Grass")!
+            case .ice:
+                typeName = "Ice"
+                newColor = UIColor(named: "Ice")!
+            case .fighting:
+                typeName = "Fighting"
+                newColor = UIColor(named: "Fighting")!
+            case .poison:
+                typeName = "Poison"
+                newColor = UIColor(named: "Poison")!
+            case .ground:
+                typeName = "Ground"
+                newColor = UIColor(named: "Ground")!
+            case .flying:
+                typeName = "Flying"
+                newColor = UIColor(named: "Flying")!
+            case .psychic:
+                typeName = "Psychic"
+                newColor = UIColor(named: "Psychic")!
+            case .bug:
+                typeName = "Bug"
+                newColor = UIColor(named: "Bug")!
+            case .rock:
+                typeName = "Rock"
+                newColor = UIColor(named: "Rock")!
+            case .ghost:
+                typeName = "Ghost"
+                newColor = UIColor(named: "Ghost")!
+            case .dragon:
+                typeName = "Dragon"
+                newColor = UIColor(named: "Dragon")!
+            case .dark:
+                typeName = "Dark"
+                newColor = UIColor(named: "Dark")!
+            case .steel:
+                typeName = "Steel"
+                newColor = UIColor(named: "Steel")!
+            case .fairy:
+                typeName = "Fairy"
+                newColor = UIColor(named: "Fairy")!
+                textColor = UIColor(named: "TypeCalcsGood")!
+            }
+            if n == 0 {
+                typeOneView.backgroundColor = newColor
+                typeLabelOne.textColor = textColor
+                typeTwoView.backgroundColor = .clear
+                typeLabelTwo.textColor = .clear
+                typeLabelOne.text = typeName.uppercased()
+            }
+            else if n == 1 {
+                typeTwoView.backgroundColor = newColor
+                typeLabelTwo.textColor = textColor
+                typeLabelTwo.text = typeName.uppercased()
+            }
+        }
+    }
+    
     // what is the best way to constrain/lay out things like stack views, table/collection views? Like do I constrain all the labels
     func constrainViews() {
         self.view.subviews.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
@@ -335,7 +712,6 @@ class TeamBuilderViewController: UIViewController {
             pokemonNameLabel.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.05),
             pokemonNameLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
             
-            
             pokemonImageView.topAnchor.constraint(equalTo: pokemonNameLabel.bottomAnchor),
             pokemonImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             pokemonImageView.trailingAnchor.constraint(equalTo: safeArea.centerXAnchor),
@@ -343,20 +719,41 @@ class TeamBuilderViewController: UIViewController {
             
             pokemonNameLabel.centerXAnchor.constraint(equalTo: pokemonImageView.centerXAnchor),
             
-            abilitiesStackView.topAnchor.constraint(equalTo: pokemonImageView.topAnchor),
-            abilitiesStackView.bottomAnchor.constraint(equalTo: pokemonImageView.bottomAnchor),
-            abilitiesStackView.leadingAnchor.constraint(equalTo: pokemonImageView.trailingAnchor),
-            abilitiesStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            metaView.leadingAnchor.constraint(equalTo: pokemonImageView.trailingAnchor),
+            metaView.topAnchor.constraint(equalTo: pokemonNameLabel.bottomAnchor),
+            metaView.bottomAnchor.constraint(equalTo: pokemonImageView.bottomAnchor),
+            metaView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -5),
+
+            abilitiesLabel.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
+            abilitiesLabel.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
+            abilitiesLabel.topAnchor.constraint(equalTo: metaView.topAnchor),
             
-            statsStack.topAnchor.constraint(equalTo: pokemonImageView.bottomAnchor),
+            abilitiesStackView.topAnchor.constraint(equalTo: abilitiesLabel.bottomAnchor),
+            abilitiesStackView.bottomAnchor.constraint(equalTo: metaView.centerYAnchor),
+            abilitiesStackView.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
+            abilitiesStackView.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
+            
+            typesLabel.topAnchor.constraint(equalTo: metaView.centerYAnchor, constant: 5),
+            typesLabel.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
+            typesLabel.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
+            
+            newTypesStack.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
+            newTypesStack.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
+            newTypesStack.topAnchor.constraint(equalTo: typesLabel.bottomAnchor, constant: 5),
+            newTypesStack.heightAnchor.constraint(equalToConstant: 40),
+            
+            statsStack.topAnchor.constraint(equalTo: pokemonImageView.bottomAnchor, constant: 15),
             statsStack.leadingAnchor.constraint(equalTo: pokemonImageView.leadingAnchor, constant: 10),
             statsStack.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             statsStack.heightAnchor.constraint(equalTo: pokemonImageView.heightAnchor),
             
             addToTeamButton.topAnchor.constraint(equalTo: statsStack.bottomAnchor, constant: 25),
-            addToTeamButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor,constant: 10),
-            addToTeamButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10)
+            addToTeamButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            addToTeamButton.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.42),
+            addToTeamButton.heightAnchor.constraint(equalTo: statsStack.heightAnchor, multiplier: 0.33)
                     ])
+        constrainAbilitiesStackView()
+        constrainTypeStackView()
     }
     func fetchAndCreateTeamPokemon(searchTerm: String) {
         guard let delegate = delegate else {return}
@@ -388,6 +785,10 @@ class TeamBuilderViewController: UIViewController {
         return fetchedTeamPokemon
     }
     
+    convenience init(pokemon: TeamPokemon) {
+        self.init()
+        self.teamPokemon = pokemon
+    }
 }
 
     // MARK: - Extensions
@@ -397,14 +798,15 @@ extension TeamBuilderViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         //
         teamCollectionView.isHidden = true
-        testContainerView.isHidden = true 
-        searchSuggestionsTableView.isHidden = false
+        testContainerView.isHidden = true
+        searchSuggestionsTableView.isHidden = true
         searchSuggestionsTableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("clicked")
         guard let text = searchBar.text else {return}
+        searchBar.resignFirstResponder()
         Task {
             do {
                 let fetchedPokemon = try await newFetchAndCreateTeamPokemon(searchTerm: text)
@@ -445,19 +847,19 @@ extension UILabel {
 extension UIView {
     func updateBarColor(on stat: Int) {
         if stat < 60 {
-            self.backgroundColor = UIColor(named: "AlertRed")
+            self.backgroundColor = UIColor(named: "Fire")
         }
         else if stat < 85 {
-            self.backgroundColor = .orange
+            self.backgroundColor = UIColor(named: "AlertRed")
         }
         else if stat < 105 {
-            self.backgroundColor = .yellow
+            self.backgroundColor = UIColor(named: "Electric")
         }
         else if stat < 130 {
-            self.backgroundColor = .green
+            self.backgroundColor = UIColor(named: "Grass")
         }
         else {
-            self.backgroundColor = .cyan
+            self.backgroundColor = UIColor(named: "Ice")
         }
     }
 }

@@ -24,6 +24,8 @@ class TeamCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         contentView.subviews.forEach { view in
             view.removeFromSuperview()
+            self.teamCollectionViewImage.image = UIImage(named: "whitePokeBallImage")
+
         }
     }
     
@@ -83,6 +85,7 @@ class TeamCollectionViewCell: UICollectionViewCell {
                 let label = UILabel(statName: "W")
                 label.translatesAutoresizingMaskIntoConstraints = false
                 label.textAlignment = .center
+                label.textColor = UIColor(named: "TypeCalcsDarkGreen")
                 return label
             }()
             contentView.addSubview(label)
@@ -91,6 +94,7 @@ class TeamCollectionViewCell: UICollectionViewCell {
                 label.bottomAnchor.constraint(equalTo: bottomAnchor),
                 label.leadingAnchor.constraint(equalTo: leadingAnchor),
                 label.trailingAnchor.constraint(equalTo: trailingAnchor)
+            
             ])
         }
         else if indexPath.row == 8 {
@@ -98,6 +102,8 @@ class TeamCollectionViewCell: UICollectionViewCell {
                 let label = UILabel(statName: "R")
                 label.translatesAutoresizingMaskIntoConstraints = false
                 label.textAlignment = .center
+                label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+
                 return label
             }()
             contentView.addSubview(label)

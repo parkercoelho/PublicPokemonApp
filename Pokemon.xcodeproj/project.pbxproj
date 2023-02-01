@@ -44,6 +44,8 @@
 		A2C6A3E2292DB9990098A9BC /* TeamBuilderCollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C6A3E1292DB9990098A9BC /* TeamBuilderCollectionViewExtension.swift */; };
 		A2C6A3E4292EA41A0098A9BC /* TeamCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C6A3E3292EA41A0098A9BC /* TeamCollectionViewCell.swift */; };
 		A2C6A3E629327AA10098A9BC /* TeamManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C6A3E529327AA10098A9BC /* TeamManagerViewController.swift */; };
+		A2D36C8A2980C3F100995092 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D36C892980C3F100995092 /* Persistence.swift */; };
+		A2D36C8C2982385500995092 /* TeamsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D36C8B2982385500995092 /* TeamsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +110,8 @@
 		A2C6A3E1292DB9990098A9BC /* TeamBuilderCollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBuilderCollectionViewExtension.swift; sourceTree = "<group>"; };
 		A2C6A3E3292EA41A0098A9BC /* TeamCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCollectionViewCell.swift; sourceTree = "<group>"; };
 		A2C6A3E529327AA10098A9BC /* TeamManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamManagerViewController.swift; sourceTree = "<group>"; };
+		A2D36C892980C3F100995092 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		A2D36C8B2982385500995092 /* TeamsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +225,7 @@
 		A2ADFAE82916B9FC00CF2776 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A2D36C882980C3CC00995092 /* Persistence */,
 				A2610FB229770FFB00A5DA57 /* TeamsList */,
 				A2ADFAEB2916C1C100CF2776 /* PokemonController.swift */,
 				A29EB91D2953CD9D00EE6819 /* PokemonTypeController.swift */,
@@ -287,6 +292,15 @@
 				A2C633E22953963300BF5907 /* HomeScreenStackView.swift */,
 			);
 			path = HomeScreenViewControllers;
+			sourceTree = "<group>";
+		};
+		A2D36C882980C3CC00995092 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				A2D36C892980C3F100995092 /* Persistence.swift */,
+				A2D36C8B2982385500995092 /* TeamsController.swift */,
+			);
+			path = Persistence;
 			sourceTree = "<group>";
 		};
 		B67693E76B5DA9CDD2A46889 /* Pods */ = {
@@ -486,6 +500,7 @@
 				A2ADFAF92916DA7500CF2776 /* TeamBuilderViewController.swift in Sources */,
 				A2ADFABA2916B9CF00CF2776 /* SceneDelegate.swift in Sources */,
 				A2ADFAEF2916C30700CF2776 /* PokemonError.swift in Sources */,
+				A2D36C8C2982385500995092 /* TeamsController.swift in Sources */,
 				A2C633DC2952A59B00BF5907 /* TeamPokemonController.swift in Sources */,
 				A2C633D22952849300BF5907 /* UpperTeamCollectionViewCell.swift in Sources */,
 				A29EB9202953D0BC00EE6819 /* PracticeViewController.swift in Sources */,
@@ -502,6 +517,7 @@
 				A2610FB629778A5900A5DA57 /* TeamsListTableViewCell.swift in Sources */,
 				A2C6A3E2292DB9990098A9BC /* TeamBuilderCollectionViewExtension.swift in Sources */,
 				A2C6A3E4292EA41A0098A9BC /* TeamCollectionViewCell.swift in Sources */,
+				A2D36C8A2980C3F100995092 /* Persistence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,7 +616,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -654,7 +670,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

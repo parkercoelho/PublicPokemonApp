@@ -22,13 +22,12 @@ class MainCoordinator: Coordinator {
     }
     
     func toTeamBuilderFromTeamManager(pokemonToExamine: TeamPokemon, delegate: TeamManagerViewController?) {
-        let vc = TeamBuilderViewController()
+        let vc = TeamBuilderViewController(pokemon: pokemonToExamine)
+        if vc.teamPokemon.image == nil {
+            vc.testContainerView.isHidden = true 
+        }
         vc.delegate = delegate 
         vc.coordinator = self
-//        vc.teamPokemon = pokemonToExamine
-//        vc.fetchAndCreateTeamPokemon(searchTerm: pokemonToExamine)
-//        guard let pokemon = vc.selectedTeamPokemon else {return}
-//        vc.team.add(pokemon: pokemon)
         navigationController.pushViewController(vc, animated: true)
     }
     

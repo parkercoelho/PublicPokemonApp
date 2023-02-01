@@ -102,7 +102,7 @@ class TypeChartCalculationCollectionViewCell: UICollectionViewCell {
                     switch calc {
                     case 0:
                         let label: UILabel = {
-                            let label = UILabel(statName: "Immune")
+                            let label = UILabel(statName: "--")
                             label.translatesAutoresizingMaskIntoConstraints = false
                             return label
                         }()

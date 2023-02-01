@@ -33,7 +33,7 @@ class TypeLabelCollectionViewCell: UICollectionViewCell {
                 view.translatesAutoresizingMaskIntoConstraints = false
                 view.layer.cornerRadius = 10
                 view.layer.borderColor = UIColor(named: "BackgroundColor")!.cgColor
-                view.layer.borderWidth = 1
+//                view.layer.borderWidth = 1
                 return view
             }()
             let label: UILabel = {
