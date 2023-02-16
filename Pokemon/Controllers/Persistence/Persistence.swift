@@ -15,7 +15,6 @@ class PersistenceFunctions {
         let fullURL = documentsDirectory.appendingPathComponent(filename)
         return fullURL
     }
-    
     static func saveTeams(teams: [Team]) {
         let je = JSONEncoder()
         var pokemonDictionary: [String: [String]] = [:]
@@ -33,7 +32,6 @@ class PersistenceFunctions {
             print("error saving teams \(e)")
         }
     }
-    
     static func loadTeamDictionaries() -> [String: [String]] {
         do {
             let data = try Data(contentsOf: fileURL())
@@ -45,39 +43,20 @@ class PersistenceFunctions {
             return [:]
         }
     }
-    
-    static func updateTeamName(teams: [Team], team: Team, newName: String) {
-        let indexToUpdate = teams.firstIndex { teamMatch in
-            teamMatch.teamName == team.teamName
-        }
-        if let indexToUpdate = indexToUpdate {
-            teams[indexToUpdate].teamName = newName
-            saveTeams(teams: teams)
-        }
-        // add an else that pops an alert letting them know there was a failure
-    }
-    
     static func addTeam(teams: inout [Team], teamToAdd: Team) {
         teams.append(teamToAdd)
         saveTeams(teams: teams)
     }
-    
     static func deleteTeam(teams: inout [Team], indexToRemove: Int) {
         teams.remove(at: indexToRemove)
         saveTeams(teams: teams)
-//        return teams.sorted(by: { team1, team2 in
-//            team1.teamName < team2.teamName
-//        })
     }
-    
     static func deletePokemonFromTeam(teams: [Team], team: Team, indexToRemove: Int) {
         team.pokemonOnTeam.remove(at: indexToRemove)
         saveTeams(teams: teams)
     }
-
     static func addPokemonToTeam(teams: [Team], team: Team, newPokemon: TeamPokemon) {
         team.add(pokemon: newPokemon)
         saveTeams(teams: teams)
-        // maybe have it return the new team sorted
     }
 }

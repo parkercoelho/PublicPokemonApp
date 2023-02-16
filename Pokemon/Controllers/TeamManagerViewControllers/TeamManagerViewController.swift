@@ -8,7 +8,7 @@
 import UIKit
 import PokemonAPI
 
-class TeamManagerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class TeamManagerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextFieldDelegate {
     
     var delegate: TeamsListTableViewController?
     let numberOfTypes: Int = 18
@@ -21,14 +21,59 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         label.font = UIFont(name: "American Typewriter", size: 24)
         return label
     }()
+    var editableTeamTitle: UITextField = {
+        let t = UITextField()
+        t.translatesAutoresizingMaskIntoConstraints = false
+        t.textColor = UIColor(named: "TypeCalcsGood")
+        t.textAlignment = .center
+        t.font = UIFont(name: "American Typewriter", size: 24)
+        return t
+    }()
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == editableTeamTitle {
+        return true}
+        else {return true}
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("Text finished editing")
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let delegate = delegate else {return false}
+        var boolToReturn = true
         
+        if textField.text!.isEmpty {
+            textField.placeholder = "Type something"
+            return false
+        }
+        else if textField.text!.lowercased() == team.teamName.lowercased() {
+            textField.text = textField.text!.capitalized
+            textField.resignFirstResponder()
+            return true}
+        else {
+            delegate.teams.forEach { team in
+                if team.teamName.lowercased() == textField.text!.lowercased() {
+                    textField.text = ""
+                    textField.placeholder = "Use another name"
+                    boolToReturn = false
+                }
+            }
+            if boolToReturn {
+                team.teamName = textField.text!.capitalized
+                PersistenceFunctions.saveTeams(teams: delegate.teams)
+                delegate.teamsListTableView.reloadData()
+                textField.resignFirstResponder()
+            }
+            return boolToReturn
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.teamTableView {
             return 6
         }
         return 3
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         if tableView == self.teamTableView {
@@ -127,7 +172,6 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         scroll.showsHorizontalScrollIndicator = false
         return scroll
     }()
-    
     let scrollContentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -149,7 +193,8 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         gradientLayer.shouldRasterize = true
         
         view.layer.addSublayer(gradientLayer)
-        view.addSubview(teamTitle)
+//        view.addSubview(teamTitle)
+        view.addSubview(editableTeamTitle)
         view.addSubview(containerScrollView)
         containerScrollView.addSubview(scrollContentView)
         scrollContentView.addSubview(teamTableView)
@@ -157,7 +202,9 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         scrollContentView.addSubview(searchSuggestionsTableView)
         scrollContentView.addSubview(typeCollectionView)
         
-        containerScrollView.topAnchor.constraint(equalTo: teamTitle.bottomAnchor).isActive = true
+//        containerScrollView.topAnchor.constraint(equalTo: teamTitle.bottomAnchor).isActive = true
+        containerScrollView.topAnchor.constraint(equalTo: editableTeamTitle.bottomAnchor).isActive = true
+        
         containerScrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
         containerScrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
         containerScrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
@@ -170,11 +217,6 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
             scrollContentView.centerXAnchor.constraint(equalTo: containerScrollView.centerXAnchor)
         ])
         
-//        view.addSubview(teamTitle)
-//        view.addSubview(teamTableView)
-//        view.addSubview(teamCollectionView)
-//        view.addSubview(searchSuggestionsTableView)
-//        view.addSubview(typeCollectionView)
         configureTitle()
         configureTeamTableView()
         configureTeamCollectionView()
@@ -186,17 +228,21 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
         super.viewDidAppear(false)
     }
 
-    // MARK: - Helper functions
-    func configureTitle() {
-        teamTitle.text = team.teamName
-        
-        NSLayoutConstraint.activate([
-            teamTitle.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor),
-            teamTitle.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor),
-            teamTitle.topAnchor.constraint(equalTo: safeArea.topAnchor)
-        ])
+    @objc func endEditing() {
+        editableTeamTitle.endEditing(true)
     }
     
+    // MARK: - Helper functions
+    func configureTitle() {
+        editableTeamTitle.text = team.teamName
+        editableTeamTitle.delegate = self
+        
+        NSLayoutConstraint.activate([
+            editableTeamTitle.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor),
+            editableTeamTitle.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor),
+            editableTeamTitle.topAnchor.constraint(equalTo: safeArea.topAnchor)
+        ])
+    }
     func configureTeamTableView() {
         teamTableView.delegate = self
         teamTableView.dataSource = self

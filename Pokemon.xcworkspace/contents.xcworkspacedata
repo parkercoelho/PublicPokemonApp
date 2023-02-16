@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Pokemon.xcodeproj">
+      location = "group:/Users/parkercoelho/Desktop/devmountain/iOS Spec/Pokemon/Team Builder.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

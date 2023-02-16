@@ -37,7 +37,7 @@ class TeamsListTableViewController: UIViewController, UITableViewDelegate, UITab
             teamsListTableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             teamsListTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
        ])
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+//        self.navigationItem.rightBarButtonItem = self.editButtonItem
         self.teamsListTableView.register(TeamsListTableViewCell.self, forCellReuseIdentifier: "cell")
         }
     override func viewWillAppear(_ animated: Bool) {
@@ -90,17 +90,17 @@ class TeamsListTableViewController: UIViewController, UITableViewDelegate, UITab
         cell.teamCollectionView.reloadData()
         return cell
     }
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-                
-        tableView.backgroundColor = UIColor(named: "TypeCalcsRed")
-        if indexPath.row < teams.count {
-            if editingStyle == .delete {
-                PersistenceFunctions.deleteTeam(teams: &self.teams, indexToRemove: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-                delegate?.teams = self.teams
-            }
-        }
-    }
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//
+//        tableView.backgroundColor = UIColor(named: "TypeCalcsRed")
+//        if indexPath.row < teams.count {
+//            if editingStyle == .delete {
+//                PersistenceFunctions.deleteTeam(teams: &self.teams, indexToRemove: indexPath.row)
+//                tableView.deleteRows(at: [indexPath], with: .fade)
+//                delegate?.teams = self.teams
+//            }
+//        }
+//    }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let releaseAction = UIContextualAction(style: .destructive, title: "Release") { (_, _, completionHandler) in
             PersistenceFunctions.deleteTeam(teams: &self.teams, indexToRemove: indexPath.row)

@@ -14,7 +14,6 @@ extension TeamBuilderViewController: UICollectionViewDelegateFlowLayout, UIColle
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 6
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TeamCollectionViewCell
         cell.backgroundColor = .clear
@@ -25,11 +24,4 @@ extension TeamBuilderViewController: UICollectionViewDelegateFlowLayout, UIColle
         let size = CGSize(width: collectionView.frame.height, height: collectionView.frame.height)
         return size 
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets.zero
-//    }
-    
-    
-    
 }

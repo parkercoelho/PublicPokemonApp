@@ -149,7 +149,6 @@ class TeamBuilderViewController: UIViewController {
         view.layer.cornerRadius = 10
         return view
     }()
-    
     let typeLabelOne: UILabel = {
         let label = UILabel(statName: "Type 1")
         label.textColor = .white
@@ -168,8 +167,6 @@ class TeamBuilderViewController: UIViewController {
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
-    
-    
     let hpStack: UIStackView = {
         let stack = UIStackView()
         return stack
@@ -370,7 +367,9 @@ class TeamBuilderViewController: UIViewController {
             // this will ensure they don't add the fake initial pokemon
             print("Please search for a pokemon")
         } else if delegate!.team.pokemonOnTeam.count == 6 {
-            print("Already 6 pokemon on team")
+            let modal = PopUpView(frame: self.view.frame, title: "Whoops!", message: "Your team is already full. Please remove a Pokemon before adding another.")
+            self.view.addSubview(modal)
+            modal.animateIn()
         }
         else {
         if let delegate = delegate {
@@ -548,7 +547,6 @@ class TeamBuilderViewController: UIViewController {
         newTypesStack.addArrangedSubview(typeTwoView)
         typeTwoView.addSubview(typeLabelTwo)
     }
-    
     func constrainAbilitiesStackView() {
         NSLayoutConstraint.activate([
             // Container leading anchors matching stack's leading anchor
@@ -613,7 +611,6 @@ class TeamBuilderViewController: UIViewController {
             typeLabelTwo.bottomAnchor.constraint(equalTo: typeTwoView.bottomAnchor),
         ])
     }
-    
     func createTypeViews(teamPokemon: TeamPokemon) {
         teamPokemon.types.enumerated().forEach { (n, type) in
             var newColor: UIColor = .clear
@@ -691,70 +688,68 @@ class TeamBuilderViewController: UIViewController {
             }
         }
     }
-    
-    // what is the best way to constrain/lay out things like stack views, table/collection views? Like do I constrain all the labels
     func constrainViews() {
-        self.view.subviews.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
-        testContainerView.subviews.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
+    self.view.subviews.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
+    testContainerView.subviews.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
+    
+    NSLayoutConstraint.activate([
+        testContainerView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+        testContainerView.bottomAnchor.constraint(equalTo: addToTeamButton.topAnchor),
+        testContainerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+        testContainerView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
         
-        NSLayoutConstraint.activate([
-            testContainerView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
-            testContainerView.bottomAnchor.constraint(equalTo: addToTeamButton.topAnchor),
-            testContainerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            testContainerView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            
-            searchBar.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            searchBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            searchBar.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.05),
-            
-            pokemonNameLabel.topAnchor.constraint(equalTo: teamCollectionView.bottomAnchor, constant: 10),
-            pokemonNameLabel.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.05),
-            pokemonNameLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
-            
-            pokemonImageView.topAnchor.constraint(equalTo: pokemonNameLabel.bottomAnchor),
-            pokemonImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            pokemonImageView.trailingAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            pokemonImageView.widthAnchor.constraint(equalTo: pokemonImageView.heightAnchor),
-            
-            pokemonNameLabel.centerXAnchor.constraint(equalTo: pokemonImageView.centerXAnchor),
-            
-            metaView.leadingAnchor.constraint(equalTo: pokemonImageView.trailingAnchor),
-            metaView.topAnchor.constraint(equalTo: pokemonNameLabel.bottomAnchor),
-            metaView.bottomAnchor.constraint(equalTo: pokemonImageView.bottomAnchor),
-            metaView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -5),
+        searchBar.topAnchor.constraint(equalTo: safeArea.topAnchor),
+        searchBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+        searchBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+        searchBar.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.05),
+        
+        pokemonNameLabel.topAnchor.constraint(equalTo: teamCollectionView.bottomAnchor, constant: 10),
+        pokemonNameLabel.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.05),
+        pokemonNameLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
+        
+        pokemonImageView.topAnchor.constraint(equalTo: pokemonNameLabel.bottomAnchor),
+        pokemonImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+        pokemonImageView.trailingAnchor.constraint(equalTo: safeArea.centerXAnchor),
+        pokemonImageView.widthAnchor.constraint(equalTo: pokemonImageView.heightAnchor),
+        
+        pokemonNameLabel.centerXAnchor.constraint(equalTo: pokemonImageView.centerXAnchor),
+        
+        metaView.leadingAnchor.constraint(equalTo: pokemonImageView.trailingAnchor),
+        metaView.topAnchor.constraint(equalTo: pokemonNameLabel.bottomAnchor),
+        metaView.bottomAnchor.constraint(equalTo: pokemonImageView.bottomAnchor),
+        metaView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -5),
 
-            abilitiesLabel.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
-            abilitiesLabel.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
-            abilitiesLabel.topAnchor.constraint(equalTo: metaView.topAnchor),
-            
-            abilitiesStackView.topAnchor.constraint(equalTo: abilitiesLabel.bottomAnchor),
-            abilitiesStackView.bottomAnchor.constraint(equalTo: metaView.centerYAnchor),
-            abilitiesStackView.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
-            abilitiesStackView.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
-            
-            typesLabel.topAnchor.constraint(equalTo: metaView.centerYAnchor, constant: 5),
-            typesLabel.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
-            typesLabel.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
-            
-            newTypesStack.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
-            newTypesStack.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
-            newTypesStack.topAnchor.constraint(equalTo: typesLabel.bottomAnchor, constant: 5),
-            newTypesStack.heightAnchor.constraint(equalToConstant: 40),
-            
-            statsStack.topAnchor.constraint(equalTo: pokemonImageView.bottomAnchor, constant: 15),
-            statsStack.leadingAnchor.constraint(equalTo: pokemonImageView.leadingAnchor, constant: 10),
-            statsStack.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            statsStack.heightAnchor.constraint(equalTo: pokemonImageView.heightAnchor),
-            
-            addToTeamButton.topAnchor.constraint(equalTo: statsStack.bottomAnchor, constant: 25),
-            addToTeamButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            addToTeamButton.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.42),
-            addToTeamButton.heightAnchor.constraint(equalTo: statsStack.heightAnchor, multiplier: 0.33)
-                    ])
-        constrainAbilitiesStackView()
-        constrainTypeStackView()
-    }
+        abilitiesLabel.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
+        abilitiesLabel.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
+        abilitiesLabel.topAnchor.constraint(equalTo: metaView.topAnchor),
+        
+        abilitiesStackView.topAnchor.constraint(equalTo: abilitiesLabel.bottomAnchor),
+        abilitiesStackView.bottomAnchor.constraint(equalTo: metaView.centerYAnchor),
+        abilitiesStackView.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
+        abilitiesStackView.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
+        
+        typesLabel.topAnchor.constraint(equalTo: metaView.centerYAnchor, constant: 5),
+        typesLabel.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
+        typesLabel.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
+        
+        newTypesStack.leadingAnchor.constraint(equalTo: metaView.leadingAnchor),
+        newTypesStack.trailingAnchor.constraint(equalTo: metaView.trailingAnchor),
+        newTypesStack.topAnchor.constraint(equalTo: typesLabel.bottomAnchor, constant: 5),
+        newTypesStack.heightAnchor.constraint(equalToConstant: 40),
+        
+        statsStack.topAnchor.constraint(equalTo: pokemonImageView.bottomAnchor, constant: 15),
+        statsStack.leadingAnchor.constraint(equalTo: pokemonImageView.leadingAnchor, constant: 10),
+        statsStack.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+        statsStack.heightAnchor.constraint(equalTo: pokemonImageView.heightAnchor),
+        
+        addToTeamButton.topAnchor.constraint(equalTo: statsStack.bottomAnchor, constant: 25),
+        addToTeamButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+        addToTeamButton.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.42),
+        addToTeamButton.heightAnchor.constraint(equalTo: statsStack.heightAnchor, multiplier: 0.33)
+                ])
+    constrainAbilitiesStackView()
+    constrainTypeStackView()
+}
     func fetchAndCreateTeamPokemon(searchTerm: String) {
         guard let delegate = delegate else {return}
         PokemonAPI().pokemonService.fetchPokemon(searchTerm.lowercased()) {result in
@@ -768,7 +763,6 @@ class TeamBuilderViewController: UIViewController {
             }
         }
     }
-    
     func newFetchAndCreateTeamPokemon(searchTerm: String) async throws -> TeamPokemon {
         let fetchedTeamPokemon: TeamPokemon = try await withCheckedThrowingContinuation ({ continuation in
             PokemonAPI().pokemonService.fetchPokemon(searchTerm.lowercased()) { result in
@@ -817,6 +811,22 @@ extension TeamBuilderViewController: UISearchBarDelegate {
             }
             catch {
                 print("Request failed with error: \(error)")
+                if text.lowercased().contains("hisu") {
+                    let modal = PopUpView(frame: self.view.frame, title: "Searching Hisui?", message: "Check your spelling. For example, search like this: Goodra-hisui")
+                    self.view.addSubview(modal)
+                    modal.animateIn()
+                }
+                else if text.lowercased().contains("alol") {
+                    let modal = PopUpView(frame: self.view.frame, title: "Searching Alola?", message: "Check your spelling. For example, search like this: Ninetales-alola")
+                    self.view.addSubview(modal)
+                    modal.animateIn()
+                }
+                else {
+                    let modal = PopUpView(frame: self.view.frame, title: "Whoops!", message: "No Pokemon was found. Please double check your spelling")
+                    self.view.addSubview(modal)
+                    modal.animateIn()
+
+                }
             }
         }
     }
@@ -826,14 +836,12 @@ extension TeamBuilderViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchSuggestions.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.backgroundColor = .darkGray
         cell.textLabel?.text = searchSuggestions[indexPath.row]
         return cell
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
 }

@@ -30,13 +30,11 @@ class MainCoordinator: Coordinator {
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
     }
-    
     func toTeamManager() {
         let vc = TeamManagerViewController()
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
     }
-    
     func toTeamManagerFromTeamsList(team: Team, delegate: TeamsListTableViewController) {
         let vc = TeamManagerViewController()
         vc.team = team
@@ -44,7 +42,6 @@ class MainCoordinator: Coordinator {
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
     }
-    
     func toTeamsList(teams: [Team], delegate: HomeScreenViewController) {
         let vc = TeamsListTableViewController()
         vc.teams = teams
@@ -52,6 +49,4 @@ class MainCoordinator: Coordinator {
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
     }
-    
-    
 }

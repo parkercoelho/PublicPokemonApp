@@ -10,7 +10,6 @@ import UIKit
 class TeamCollectionViewCell: UICollectionViewCell {
     var delegate: TeamManagerViewController?
     var teamsListDelegate: TeamsListTableViewCell?
-    
     let teamCollectionViewImage: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -48,7 +47,6 @@ class TeamCollectionViewCell: UICollectionViewCell {
             ])
         }
     }
-    
     func setUpTeamsListTeamCollectionViewCell(indexPath: IndexPath) {
         guard let teamsListDelegate = teamsListDelegate else {
             return
@@ -60,7 +58,6 @@ class TeamCollectionViewCell: UICollectionViewCell {
             
         }
     }
-    
     func setUpTeamCollectionViewCell(indexPath: IndexPath) {
         guard let delegate = delegate else {
             return
@@ -85,7 +82,7 @@ class TeamCollectionViewCell: UICollectionViewCell {
                 let label = UILabel(statName: "W")
                 label.translatesAutoresizingMaskIntoConstraints = false
                 label.textAlignment = .center
-                label.textColor = UIColor(named: "TypeCalcsDarkGreen")
+                label.textColor = UIColor(named: "TypeCalcsRed")
                 return label
             }()
             contentView.addSubview(label)
@@ -94,7 +91,6 @@ class TeamCollectionViewCell: UICollectionViewCell {
                 label.bottomAnchor.constraint(equalTo: bottomAnchor),
                 label.leadingAnchor.constraint(equalTo: leadingAnchor),
                 label.trailingAnchor.constraint(equalTo: trailingAnchor)
-            
             ])
         }
         else if indexPath.row == 8 {

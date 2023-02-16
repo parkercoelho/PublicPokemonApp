@@ -14,15 +14,15 @@ class HomeScreenViewController: UIViewController {
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
     }
-    
     var coordinator: MainCoordinator?
     var goImageSize: CGSize = CGSize(width: 40.0, height: 40.0)
     var compImageSize: CGSize = CGSize(width: 60.0, height: 60.0)
     var teams: [Team] = []
+    
 
     // MARK: - UI Components
     let titleLabel: UILabel = {
-        let label = UILabel(statName: "Pokemon! Team Building")
+        let label = UILabel(statName: "Draft League Team Builder")
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor(named: "TypeCalcsDarkGreen")
         label.font = UIFont(name: "American Typewriter Bold", size: 36)
@@ -44,12 +44,14 @@ class HomeScreenViewController: UIViewController {
         return view
     }()
     let competitiveBattleImage: UIImageView = {
-        let image = UIImage(named: "PokemonBattleIcon")
+        let trophyConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .light, scale: .large)
+        let darkGreen = UIColor(named: "TypeCalcsDarkGreen")
+        let image = UIImage(systemName: "trophy.circle", withConfiguration: trophyConfig)?.withTintColor(darkGreen!, renderingMode: .alwaysOriginal)
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
         iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.image = image
+        iv.image = image?.withTintColor(UIColor(named: "TypeCalcsDarkGreen")!)
         return iv
     }()
     let competitiveBattleLabel: UILabel = {
@@ -63,7 +65,9 @@ class HomeScreenViewController: UIViewController {
         return label
     }()
     let pokemonGoBattleImage: UIImageView = {
-        let image = UIImage(named: "GoBattleIcon")
+        let darkGreen = UIColor(named: "TypeCalcsDarkGreen")
+        let goConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .light, scale: .large)
+        let image = UIImage(systemName: "point.3.connected.trianglepath.dotted", withConfiguration: goConfig)?.withTintColor(darkGreen!, renderingMode: .alwaysOriginal)
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
@@ -72,7 +76,7 @@ class HomeScreenViewController: UIViewController {
         return iv
     }()
     let pokemonGoBattleLabel: UILabel = {
-        let label = UILabel(statName: "Pokemon Go")
+        let label = UILabel(statName: "Go! ")
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor(named: "TypeCalcsDarkGreen")
         label.font = UIFont(name: "American Typewriter Bold", size: 16)
@@ -84,7 +88,7 @@ class HomeScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        resizeImages()
+//        resizeImages()
         addAllSubviews()
         constrainViews()
         let gradientLayer = CAGradientLayer()
@@ -95,7 +99,7 @@ class HomeScreenViewController: UIViewController {
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
         
         view.layer.addSublayer(gradientLayer)
-//        makeTeamTappable()
+        makePoGoTappable()
         Task {
             do {
                 try await initializeFromPersistedData(pokemon: PersistenceFunctions.loadTeamDictionaries())
@@ -157,6 +161,17 @@ class HomeScreenViewController: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(navToTeamsList))
         competitiveBattleImage.isUserInteractionEnabled = true
         competitiveBattleImage.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    func makePoGoTappable() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(presentModal))
+        pokemonGoBattleImage.isUserInteractionEnabled = true
+        pokemonGoBattleImage.addGestureRecognizer(tapGestureRecognizer)
+    }
+    @objc func presentModal() {
+        let modal = PopUpView(frame: self.view.frame, title: "Coming Soon!", message: "We hope to build out a team builder for Pokemon Go in the future!")
+        modal.animateIn()
+        view.addSubview(modal)
     }
 
     // MARK: - Navigation
