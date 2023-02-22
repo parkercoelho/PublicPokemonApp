@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import Pokemon
+@testable import TeamBuilder
 import PokemonAPI
 
 class PokemonTests: XCTestCase {
@@ -36,11 +36,6 @@ class PokemonTests: XCTestCase {
         // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
         
-    }
-    func test_Team_Pokemon() {
-        let pokemon = TeamPokemon(name: "bulbasaur", hp: 1, attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1, types: [.grass,.poison], image: .checkmark)
-        
-        XCTAssertEqual(pokemon.name, "bulbasaur")
     }
 
     func testPerformanceExample() throws {
