@@ -47,6 +47,12 @@
 		A2D36C8A2980C3F100995092 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D36C892980C3F100995092 /* Persistence.swift */; };
 		A2D36C8C2982385500995092 /* TeamsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D36C8B2982385500995092 /* TeamsController.swift */; };
 		A2EB75C5299EC35100CA9394 /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EB75C4299EC35100CA9394 /* PopUpView.swift */; };
+		A2F674F829A7204300C3E4D8 /* RecommendationsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F674F729A7204300C3E4D8 /* RecommendationsTest.swift */; };
+		A2F674FA29A7220900C3E4D8 /* RecommendationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F674F929A7220900C3E4D8 /* RecommendationsViewController.swift */; };
+		A2F674FC29A726CD00C3E4D8 /* RecommendationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F674FB29A726CD00C3E4D8 /* RecommendationsTableViewCell.swift */; };
+		A2F674FE29A7D8BA00C3E4D8 /* URLSessionNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F674FD29A7D8BA00C3E4D8 /* URLSessionNetworking.swift */; };
+		A2F6750029A931EF00C3E4D8 /* MockURLSessionNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F674FF29A931EF00C3E4D8 /* MockURLSessionNetworking.swift */; };
+		A2F6750229A9337500C3E4D8 /* PokemonResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = A2F6750129A9337500C3E4D8 /* PokemonResponse.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +120,12 @@
 		A2D36C892980C3F100995092 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		A2D36C8B2982385500995092 /* TeamsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsController.swift; sourceTree = "<group>"; };
 		A2EB75C4299EC35100CA9394 /* PopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpView.swift; sourceTree = "<group>"; };
+		A2F674F729A7204300C3E4D8 /* RecommendationsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationsTest.swift; sourceTree = "<group>"; };
+		A2F674F929A7220900C3E4D8 /* RecommendationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationsViewController.swift; sourceTree = "<group>"; };
+		A2F674FB29A726CD00C3E4D8 /* RecommendationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationsTableViewCell.swift; sourceTree = "<group>"; };
+		A2F674FD29A7D8BA00C3E4D8 /* URLSessionNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionNetworking.swift; sourceTree = "<group>"; };
+		A2F674FF29A931EF00C3E4D8 /* MockURLSessionNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionNetworking.swift; sourceTree = "<group>"; };
+		A2F6750129A9337500C3E4D8 /* PokemonResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PokemonResponse.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,7 +211,10 @@
 			isa = PBXGroup;
 			children = (
 				A2ADFACE2916B9D000CF2776 /* PokemonTests.swift */,
+				A2F674F729A7204300C3E4D8 /* RecommendationsTest.swift */,
 				A29EB921295CE84400EE6819 /* PokemonTeamManagerTests.swift */,
+				A2F674FF29A931EF00C3E4D8 /* MockURLSessionNetworking.swift */,
+				A2F6750129A9337500C3E4D8 /* PokemonResponse.json */,
 			);
 			path = PokemonTests;
 			sourceTree = "<group>";
@@ -235,6 +250,9 @@
 				A2C633DB2952A59A00BF5907 /* TeamPokemonController.swift */,
 				A2C633E12953961600BF5907 /* HomeScreenViewControllers */,
 				A2EB75C4299EC35100CA9394 /* PopUpView.swift */,
+				A2F674F929A7220900C3E4D8 /* RecommendationsViewController.swift */,
+				A2F674FD29A7D8BA00C3E4D8 /* URLSessionNetworking.swift */,
+				A2F674FB29A726CD00C3E4D8 /* RecommendationsTableViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -446,6 +464,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2F6750229A9337500C3E4D8 /* PokemonResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +539,8 @@
 				A2ADFAF92916DA7500CF2776 /* TeamBuilderViewController.swift in Sources */,
 				A2ADFABA2916B9CF00CF2776 /* SceneDelegate.swift in Sources */,
 				A2ADFAEF2916C30700CF2776 /* PokemonError.swift in Sources */,
+				A2F674FC29A726CD00C3E4D8 /* RecommendationsTableViewCell.swift in Sources */,
+				A2F674FA29A7220900C3E4D8 /* RecommendationsViewController.swift in Sources */,
 				A2D36C8C2982385500995092 /* TeamsController.swift in Sources */,
 				A2C633DC2952A59B00BF5907 /* TeamPokemonController.swift in Sources */,
 				A2C633D22952849300BF5907 /* UpperTeamCollectionViewCell.swift in Sources */,
@@ -535,6 +556,7 @@
 				A2C633D629529BF400BF5907 /* TeamTableViewCell.swift in Sources */,
 				A2ADFAEC2916C1C100CF2776 /* PokemonController.swift in Sources */,
 				A2610FB629778A5900A5DA57 /* TeamsListTableViewCell.swift in Sources */,
+				A2F674FE29A7D8BA00C3E4D8 /* URLSessionNetworking.swift in Sources */,
 				A2C6A3E2292DB9990098A9BC /* TeamBuilderCollectionViewExtension.swift in Sources */,
 				A2C6A3E4292EA41A0098A9BC /* TeamCollectionViewCell.swift in Sources */,
 				A2D36C8A2980C3F100995092 /* Persistence.swift in Sources */,
@@ -545,7 +567,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2F674F829A7204300C3E4D8 /* RecommendationsTest.swift in Sources */,
 				A29EB922295CE84400EE6819 /* PokemonTeamManagerTests.swift in Sources */,
+				A2F6750029A931EF00C3E4D8 /* MockURLSessionNetworking.swift in Sources */,
 				A2ADFACF2916B9D000CF2776 /* PokemonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -771,7 +795,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3Z9KG4V9S3;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.PokemonTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -791,7 +815,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3Z9KG4V9S3;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.PokemonTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

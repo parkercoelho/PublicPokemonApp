@@ -49,4 +49,12 @@ class MainCoordinator: Coordinator {
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func toRecommendations(team: Team, delegate: TeamManagerViewController) {
+        let vc = RecommendationsViewController()
+        vc.team = team
+        vc.delegate = delegate
+        vc.coordinator = self
+        navigationController.pushViewController(vc, animated: true)
+    }
 }

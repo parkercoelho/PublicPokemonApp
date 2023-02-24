@@ -366,6 +366,9 @@ class TeamManagerViewController: UIViewController, UICollectionViewDataSource, U
             if indexPath.row > 0 && indexPath.row <= team.pokemonOnTeam.count {
                 coordinator?.toTeamBuilderFromTeamManager(pokemonToExamine: team.pokemonOnTeam[indexPath.row-1], delegate: self)
             }
+            else {
+                coordinator?.toRecommendations(team: self.team, delegate: self)
+            }
         }
         else {print("Not TeamCollectionView")}
     }
